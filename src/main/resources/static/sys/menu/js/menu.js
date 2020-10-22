@@ -71,7 +71,7 @@ layui.use(['element', 'form', 'table', 'layer', 'tree', 'util'], function () {
  */
 function menuFormSave() {
     var menuForm = $("#menuForm").serializeObject();
-    if(menuForm.menuId === "0"){
+    if (menuForm.menuParentId === "") {
         layer.msg("根节点仅用于展示，不可操作！", {icon: 2,time: 2000}, function () {});
         return;
     }
