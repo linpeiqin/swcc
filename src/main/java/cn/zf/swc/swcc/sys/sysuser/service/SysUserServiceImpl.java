@@ -3,7 +3,7 @@ package cn.zf.swc.swcc.sys.sysuser.service;
 import cn.zf.swc.swcc.common.pojo.PageInfo;
 import cn.zf.swc.swcc.common.pojo.Result;
 import cn.zf.swc.swcc.common.service.CommonServiceImpl;
-import cn.zf.swc.swcc.sys.syssetting.service.SysSettingService;
+import cn.zf.swc.swcc.sys.sysshortcutmenu.repository.SysShortcutMenuRepository;
 import cn.zf.swc.swcc.sys.sysshortcutmenu.service.SysShortcutMenuService;
 import cn.zf.swc.swcc.sys.sysshortcutmenu.vo.SysShortcutMenuVo;
 import cn.zf.swc.swcc.sys.sysuser.pojo.SysUser;
@@ -41,7 +41,7 @@ public class SysUserServiceImpl extends CommonServiceImpl<SysUserVo, SysUser, St
     private SysUserRepository sysUserRepository;
 
     @Autowired
-    private SysSettingService sysSettingService;
+    private SysShortcutMenuRepository sysShortcutMenuRepository;
 
     @Autowired
     private SysUserAuthorityService sysUserAuthorityService;
@@ -69,7 +69,8 @@ public class SysUserServiceImpl extends CommonServiceImpl<SysUserVo, SysUser, St
         SysShortcutMenuVo sysShortcutMenuVo = new SysShortcutMenuVo();
         sysShortcutMenuVo.setUserId(id);
         sysShortcutMenuService.list(sysShortcutMenuVo).getData().forEach((vo -> {
-            sysShortcutMenuService.delete(vo.getShortcutMenuId());
+            //直接调用Repository删除记录，Service有自己的删除逻辑，不适合这里
+            sysShortcutMenuRepository.deleteById(vo.getShortcutMenuId());
         }));
 
         return super.delete(id);
@@ -98,11 +99,15 @@ public class SysUserServiceImpl extends CommonServiceImpl<SysUserVo, SysUser, St
     @Override
     public Result<SysUserVo> save(SysUserVo entityVo) {
         //进行登录名唯一校验
-        SysUserVo sysUserVo = new SysUserVo();
-        sysUserVo.setLoginName(entityVo.getLoginName());
-        if(super.list(sysUserVo).getData().size() > 0){
-            return Result.of(entityVo,false,"保存失败，登录名已存在！");
-        }
+        //新增用户
+        if (StringUtils.isEmpty(entityVo.getUserId())) {
+            //进行登录名唯一校验
+            SysUserVo sysUserVo = new SysUserVo();
+            sysUserVo.setLoginName(entityVo.getLoginName());
+            if(super.list(sysUserVo).getData().size() > 0){
+                return Result.of(entityVo,false,"保存失败，登录名已存在！");
+            }
+
 
         //新增用户，需要设置初始密码
         if (StringUtils.isEmpty(entityVo.getUserId())) {
