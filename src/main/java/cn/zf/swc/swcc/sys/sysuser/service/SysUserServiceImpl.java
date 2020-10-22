@@ -98,7 +98,6 @@ public class SysUserServiceImpl extends CommonServiceImpl<SysUserVo, SysUser, St
 
     @Override
     public Result<SysUserVo> save(SysUserVo entityVo) {
-        //进行登录名唯一校验
         //新增用户
         if (StringUtils.isEmpty(entityVo.getUserId())) {
             //进行登录名唯一校验
@@ -108,9 +107,7 @@ public class SysUserServiceImpl extends CommonServiceImpl<SysUserVo, SysUser, St
                 return Result.of(entityVo,false,"保存失败，登录名已存在！");
             }
 
-
-        //新增用户，需要设置初始密码
-        if (StringUtils.isEmpty(entityVo.getUserId())) {
+            //需要设置初始密码
             entityVo.setPassword(MD5Util.getMD5(SysSettingUtil.getSysSetting().getUserInitPassword()));
         }
         return super.save(entityVo);
