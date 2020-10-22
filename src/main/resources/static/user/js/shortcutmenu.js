@@ -69,6 +69,9 @@ layui.use(['element', 'form', 'table', 'layer', 'tree', 'util'], function () {
  */
 function shortcutMenuFormSave() {
     let shortcutMenuForm = $("#shortcutMenuForm").serializeObject();
+    if (shortcutMenuForm.shortcutMenuId === "") {
+        return;
+    }
     if (shortcutMenuForm.shortcutMenuParentId === "") {
         layer.msg("根节点仅用于展示，不可操作！", {icon: 2, time: 2000}, function () {
         });
