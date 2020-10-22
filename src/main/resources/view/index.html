@@ -49,7 +49,7 @@
     <div class="layui-side layui-bg-black"  th:style="${' background-color:' + sys.sysColor + ' !important;'}">
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree" lay-filter="test"  th:style="${' background-color:' + sys.sysColor + ' !important;'}">
-                <!-- 动态读取加载系统菜单 -->
+                <!-- 动态读取加载用户快捷菜单 -->
                 <li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}" th:unless="${#lists.size(menu.children)} eq 0">
                     <a th:text="${menu.shortcutMenuName}" href="javascript:;">XXX</a>
                     <dl class="layui-nav-child" >

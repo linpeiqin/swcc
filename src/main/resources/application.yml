@@ -4,6 +4,7 @@
 server:
   port: 8080
   servlet:
+    context-path:
    # context-path: /swcc #应用路径，配置应用路径，可方便进行反向代理
 #基础配置
 spring:

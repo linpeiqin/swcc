@@ -71,10 +71,10 @@ layui.use(['element', 'form', 'table', 'layer', 'tree', 'util'], function () {
  */
 function menuFormSave() {
     var menuForm = $("#menuForm").serializeObject();
-    if (menuForm.menuId === "") {
+    if (menuForm.menuParentId === "") {
         return;
     }
-    if (menuForm.menuParentId === "") {
+    if(menuForm.menuId === "0"){
         layer.msg("根节点仅用于展示，不可操作！", {icon: 2,time: 2000}, function () {});
         return;
     }
