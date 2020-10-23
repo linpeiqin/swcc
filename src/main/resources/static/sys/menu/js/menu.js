@@ -16,6 +16,7 @@ layui.use(['element', 'form', 'table', 'layer', 'tree', 'util'], function () {
             , data: [{
                 title: '系统菜单根节点'
                 , href: "/"
+                , orderNumber: "0"
                 , id: "0"
                 , spread: true
                 , children: treeData
@@ -29,6 +30,7 @@ layui.use(['element', 'form', 'table', 'layer', 'tree', 'util'], function () {
                     menuId: obj.data.id,
                     menuName: obj.data.title,
                     menuPath: obj.data.href,
+                    orderNumber: obj.data.orderNumber,
                     menuParentName: obj.elem.parent().parent().children(".layui-tree-entry").find(".layui-tree-txt").text(),
                     menuParentId: obj.elem.parent().parent().data("id"),
                     treeId: obj.data.id

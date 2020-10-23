@@ -19,6 +19,8 @@ public interface CommonService<V, E,T> {
 
     Result<List<V>> list(V entityVo);
 
+    Result<List<V>> list(V entityVo,String sidx);
+
     Result<V> get(T id);
 
     Result<V> save(V entityVo);

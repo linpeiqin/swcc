@@ -29,7 +29,7 @@ public class SysUserMenuServiceImpl extends CommonServiceImpl<SysUserMenuVo, Sys
     @Override
     public Result<List<SysMenuVo>> findByUserId(String userId) {
         List<SysMenuVo> menuVoList = new ArrayList<>();
-        List<SysUserMenuVo> sysUserMenuVoList = CopyUtil.copyList(sysUserMenuRepository.findByUserId(userId), SysUserMenuVo.class);
+        List<SysUserMenuVo> sysUserMenuVoList = CopyUtil.copyList(sysUserMenuRepository.findByUserIdOrderBy(userId), SysUserMenuVo.class);
         sysUserMenuVoList.forEach((sysUserMenuVo) -> {
             SysMenuVo sysMenuVo = sysUserMenuVo.getSysMenu();
             if(StringUtils.isEmpty(sysMenuVo.getMenuParentId())){

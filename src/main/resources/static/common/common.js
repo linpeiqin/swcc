@@ -279,6 +279,7 @@ commonUtil = {
             obj1.id = obj.menuId;
             obj1.title = obj.menuName;
             obj1.href = obj.menuPath;
+            obj1.orderNumber = obj.orderNumber;
 
             if (obj.children.length > 0) {
                 obj1.children = this.updateKeyForLayuiTree(obj.children);

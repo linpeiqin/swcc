@@ -52,7 +52,7 @@ public class SysMenuServiceImpl extends CommonServiceImpl<SysMenuVo, SysMenu, St
     @Override
     public Result<List<SysMenuVo>> listByTier(SysMenuVo entityVo) {
         List<SysMenuVo> menuVoList = new ArrayList<>();
-        List<SysMenuVo> sysMenuVoList = super.list(entityVo).getData();
+        List<SysMenuVo> sysMenuVoList = super.list(entityVo,"orderNumber").getData();
         sysMenuVoList.forEach((sysMenuVo) -> {
             if(StringUtils.isEmpty(sysMenuVo.getMenuParentId())){
                 //上级节点

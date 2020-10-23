@@ -10,19 +10,29 @@
     <script th:replace="common/head::static"></script>
     <style>
         /*上下左右居中*/
-        .main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            vertical-align: center;
+        .login-wrapper > .layui-form {
+            padding: 25px 30px;
+            background-color: #fff;
+            box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.19);
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+        .login-wrapper {
+            margin: -150px -100px 0px 900px;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
         }
     </style>
 </head>
-<body style="background-image: url('backImage.png')">
-<div class="main" >
+<body style="background-image: url('common/img/backImage.png')">
+<div class="login-wrapper layui-anim layui-anim-scale" >
     <form class="layui-form layui-form-pane">
         <div class="layui-form-item">
-            <h1 style="text-align: center;color:blue" th:text="${sys.sysName}"></h1>
+            <h1 style="text-align: center;" th:text="${sys.sysName}"></h1>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">账号<i class="layui-icon layui-icon-username"></i></label>

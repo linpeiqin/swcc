@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Id;
@@ -64,7 +65,12 @@ public class CommonServiceImpl<V, E, T> implements CommonService<V, E, T> {
         List<V> entityModelList = CopyUtil.copyList(entityList, entityVoClass);
         return Result.of(entityModelList);
     }
-
+    @Override
+    public Result<List<V>> list(V entityVo, String sidx) {
+        List<E> entityList = commonRepository.findAll(Example.of(CopyUtil.copy(entityVo, entityClass)),new Sort(Sort.Direction.ASC,sidx));
+        List<V> entityModelList = CopyUtil.copyList(entityList, entityVoClass);
+        return Result.of(entityModelList);
+    }
     @Override
     public Result<V> get(T id) {
         Optional<E> optionalE = commonRepository.findById(id);
