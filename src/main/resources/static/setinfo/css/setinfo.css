@@ -1,0 +1,20 @@
+body {
+    padding: 20px;
+    background-color: #F2F2F2;
+}
+
+
+.layui-input-block {
+    display: -webkit-box !important;
+}
+
+.layui-table-tool-temp {
+    padding-right: 0;
+}
+
+#queryBySetInfoInfo {
+    width: 100px;
+    display: unset;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}

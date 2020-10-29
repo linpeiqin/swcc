@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--解决idea thymeleaf 表达式模板报红波浪线-->
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 引入公用部分 -->
+    <script th:replace="common/head::static"></script>
+    <!-- 样式 -->
+    <link th:href="@{/sensordata/css/energyusage.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">用电信息</div>
+            <div class="layui-card-body">
+                <div class="layui-tab">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">表格</li>
+                        <li>图表</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <!-- 表格 -->
+                            <table class="layui-hide" id="energyUsageTable" lay-filter="test"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <!--图表-->
+                            <div class="chart-panel panel panel-default">
+                                <div class="panel-body" id="chart" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 模板 -->
+                <script type="text/html" id="energyUsageTableToolbarDemo">
+                    <div class="layui-btn-container">
+                        <input type="text" id="queryByEnergyUsageInfo" name="queryByEnergyUsageInfo" autocomplete="off"
+                               placeholder="请输入厕所名称" class="layui-input layui-btn-sm">
+                        <button class="layui-btn" lay-event="query"><i class="layui-icon layui-icon-search"></i>查询</button>
+                    </div>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- js -->
+<script th:src="@{/sensordata/js/energyusage.js}"></script>
+<script th:src="@{/common/echarts/echarts.js}"></script>
+</html>
