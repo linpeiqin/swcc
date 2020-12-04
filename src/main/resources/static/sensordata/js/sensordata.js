@@ -6,8 +6,6 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
     let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
     let laydate = layui.laydate;
     tree = layui.tree;
-    let height = document.documentElement.clientHeight - 160;
-
     tableIns = table.render({
         elem: '#sensorDataTable'
         , url: ctx + '/wc/sensorData/page'
@@ -34,43 +32,53 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
                 "rows": data.rows //解析数据列表
             };
         }
-        , toolbar: '#sensorDataTableToolbarDemo'
         , title: '传感器数据查询'
         , cols: [[
-            {field: 'time', title: '记录时间'}
-            , {field: 'sensorId', title: '传感器ID'}
-            , {field: 'sensorType', title: '传感器类型'}
+            {field: 'sortNumber', title: '序号',type:'numbers'}
+            , {field: 'time', title: '记录时间',sort: true}
+            , {field: 'sensorId', title: '传感器ID',sort: true}
+            , {field: 'sensorType', title: '传感器类型',sort: true}
             , {field: 'value1', title: '值1'}
             , {field: 'value2', title: '值2'}
             , {field: 'value3', title: '值3'}
         ]]
-        , defaultToolbar: ['', '', '']
         , page: true
-        , height: height
+        , height: 'full-160'
         , cellMinWidth: 60
     });
+    initSelect(form);
 
-    //头工具栏事件
-    table.on('toolbar(test)', function (obj) {
-        switch (obj.event) {
-            case 'query':
-                let queryBySensorDataInfo = $("#queryBySensorDataInfo").val();
-                let query = {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , done: function (res, curr, count) {
-                        //完成后重置where，解决下一次请求携带旧数据
-                        this.where = {};
-                    }
-                };
-                if (queryBySensorDataInfo) {
-                    //设定异步数据接口的额外参数
-                    query.where = {info: queryBySensorDataInfo};
-                }
-                tableIns.reload(query);
-                $("#queryBySensorDataInfo").val(queryBySensorDataInfo);
-                break;
+    // 刷新按钮
+    $("#rqueryButton").click(function() {
+        let wcId = $('#wcSelector').val();
+        let startDate = $('#startDatePicker').val();
+        let endDate = $('#endDatePicker').val();
+        let query = {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+            , done: function (res, curr, count) {
+                //完成后重置where，解决下一次请求携带旧数据
+                this.where = {};
+            }
+        };
+        if (wcId) {
+            //设定异步数据接口的额外参数
+            query.where = {wcInfoWcId: wcId};
         }
+        tableIns.reload(query);
+        return false;
+    })
+    //日期选择器
+    laydate.render({
+        elem: '#startDatePicker',
+        theme:'#8470FF',
+        type: 'datetime', //选择时间
+    });
+    //日期选择器
+    laydate.render({
+        elem: '#endDatePicker',
+        theme:'#8470FF',
+        type: 'datetime', //选择时间
     });
 });

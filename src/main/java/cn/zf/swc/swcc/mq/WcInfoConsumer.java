@@ -22,8 +22,11 @@ public class WcInfoConsumer {
     public void recieved(WcInfoDto wcInfoDto) {
         WcInfo wcInfo  = new WcInfo();
         wcInfo.setInfo(wcInfoDto.getInfo());
-        wcInfo.setLocation(String.valueOf(wcInfoDto.getLocation()));
+        wcInfo.setLocation(wcInfoDto.getLocation());
+        wcInfo.setWcId(wcInfoDto.getId());
+        wcInfo.setRecordTime(wcInfoDto.getRecordTime());
         wcInfo.setPassword(wcInfoDto.getPassword());
+        wcInfo.setMacCode(wcInfoDto.getMacCode());
         this.wcInfoRepository.save(wcInfo);
     }
 

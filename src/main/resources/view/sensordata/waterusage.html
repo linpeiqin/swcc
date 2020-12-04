@@ -14,6 +14,33 @@
         <div class="layui-card">
             <div class="layui-card-header">用水信息</div>
             <div class="layui-card-body">
+                <form class="layui-form" >
+                    <div class="layui-inline layui-form-item">
+                        <label class="layui-form-label">选择厕所</label>
+                        <div class="layui-input-block">
+                            <select id='wcSelector' name="wcList" lay-verify="required" lay-filter="wcInfoSelector">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-form-item">
+                        <label class="layui-form-label">开始时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="startDatePicker" class="layui-input" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-form-item">
+                        <label class="layui-form-label">结束时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="endDatePicker" class="layui-input" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-inline tool-btn layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="rqueryButton"><i class="layui-icon layui-icon-add-circle"></i>查询</button>
+                        </div>
+                    </div>
+                </form>
                 <div class="layui-tab">
                     <ul class="layui-tab-title">
                         <li class="layui-this">表格</li>
@@ -27,26 +54,18 @@
                         <div class="layui-tab-item">
                             <!--图表-->
                             <div class="chart-panel panel panel-default">
-                                <div class="panel-body" id="chart" >
+                                <div class="panel-body" id="chart" style="width: 1000px;height:450px;">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- 模板 -->
-                <script type="text/html" id="waterUsageTableToolbarDemo">
-                    <div class="layui-btn-container">
-                        <input type="text" id="queryByWaterUsageInfo" name="queryByWaterUsageInfo" autocomplete="off"
-                               placeholder="请输入厕所名称" class="layui-input layui-btn-sm">
-                        <button class="layui-btn" lay-event="query"><i class="layui-icon layui-icon-search"></i>查询</button>
-                    </div>
-                </script>
             </div>
         </div>
     </div>
 </div>
 </body>
 <!-- js -->
-<script th:src="@{/sensordata/js/waterusage.js}"></script>
 <script th:src="@{/common/echarts/echarts.js}"></script>
+<script th:src="@{/sensordata/js/waterusage.js}"></script>
 </html>

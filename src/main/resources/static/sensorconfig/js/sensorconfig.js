@@ -3,10 +3,7 @@ let tree;
 layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], function () {
     let table = layui.table;
     let form = layui.form;//select、单选、复选等依赖form
-    let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-    let laydate = layui.laydate;
     tree = layui.tree;
-    let height = document.documentElement.clientHeight - 160;
 
     tableIns = table.render({
         elem: '#sensorConfigTable'
@@ -34,55 +31,33 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
                 "rows": data.rows //解析数据列表
             };
         }
-        , toolbar: '#sensorConfigTableToolbarDemo'
         , title: '传感器列表'
         , cols: [[
-            {field: 'id', title: '传感器ID'}
-            , {field: 'modbusId', title: '总线ID'}
-            , {field: 'sensorType', title: '传感器类型'}
-            , {field: 'outId', title: '输出ID'}
-            , {field: 'limitVal', title: '动作值'}
-            , {field: 'limitDownVal', title: '解除值'}
+            {field: 'sortNumber', title: '序号',type:'numbers'}
+            , {field: 'wcInfoInfo', title: '厕所信息', templet: '<div>{{d.wcInfoVo.info}}</div>'}
+            , {field: 'modbusId', title: '总线ID',sort: true}
+            , {field: 'sensorType', title: '传感器类型',sort: true}
+            , {field: 'outId', title: '输出ID',sort: true}
+            , {field: 'limitVal', title: '动作值',sort: true}
+            , {field: 'limitDownVal', title: '解除值',sort: true}
             , {fixed: 'right', title: '操作', toolbar: '#sensorConfigTableBarDemo'}
         ]]
-        , defaultToolbar: ['', '', '']
         , page: true
-        , height: height
+        , height: 'full-155'
         , cellMinWidth: 60
     });
 
+    initSelect(form);
     //头工具栏事件
-    table.on('toolbar(test)', function (obj) {
-        switch (obj.event) {
-            case 'addData':
-                //重置操作表单
-                $("#sensorConfigForm")[0].reset();
-                form.render();
-                layer.msg("请填写右边的表单并保存！");
-                break;
-            case 'query':
-                let queryBySensorConfigInfo = $("#queryBySensorConfigInfo").val();
-                let query = {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , done: function (res, curr, count) {
-                        //完成后重置where，解决下一次请求携带旧数据
-                        this.where = {};
-                    }
-                };
-                if (queryBySensorConfigInfo) {
-                    //设定异步数据接口的额外参数
-                    query.where = {info: queryBySensorConfigInfo};
-                }
-                tableIns.reload(query);
-                $("#queryBySensorConfigInfo").val(queryBySensorConfigInfo);
-                break;
-        }
+    form.on('submit(addData)', function (obj) {
+        $("#setInfoForm")[0].reset();
+        form.render();
+        layer.msg("请填写右边的表单并保存！");
+        return false;
     });
 
     //监听行工具事件
-    table.on('tool(test)', function (obj) {
+    table.on('tool(sensorConfigFilter)', function (obj) {
         let data = obj.data;
         //删除
         if (obj.event === 'del') {
@@ -101,6 +76,25 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
             form.render();
         }
     });
+
+    //厕所切换
+    form.on('select(wcInfoSelector)', function (data) {
+        let wcId = data.value;
+        let query = {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+            , done: function (res, curr, count) {
+                //完成后重置where，解决下一次请求携带旧数据
+                this.where = {};
+            }
+        };
+        if (wcId) {
+            //设定异步数据接口的额外参数
+            query.where = {wcInfoWcId: wcId};
+        }
+        tableIns.reload(query);
+    })
 });
 
 /**

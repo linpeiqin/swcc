@@ -2,7 +2,7 @@
 
 #内置Tomcat容器配置
 server:
-  port: 8082
+  port: 80
   servlet:
     context-path:
     # context-path: /swcc #应用路径，配置应用路径，可方便进行反向代理
@@ -20,10 +20,10 @@ spring:
   mvc:
     date-format: yyyy-MM-dd HH:mm:ss
   rabbitmq:
-    host: 127.0.0.1
+    host: 106.53.125.170
     port: 5672
-    username: guest
-    password: guest
+    username: sa
+    password: 123456
     publisher-confirms: true
     virtual-host: /
 
@@ -47,6 +47,7 @@ spring:
 
   #数据库配置
   datasource:
+    # url: jdbc:mysql://106.53.125.170:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8
     url: jdbc:mysql://localhost:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
     password: 123456
@@ -63,13 +64,13 @@ spring:
 
   #数据库配置
   datasource:
-    url: jdbc:mysql://localhost:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    url: jdbc:mysql://106.53.125.170:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 #是否需要输入验证码
 captcha:
-  enable: false
+  enable: true
 
 

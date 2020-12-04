@@ -1,6 +1,8 @@
 package cn.zf.swc.swcc.sys.syssetting.vo;
 
-import cn.zf.swc.swcc. common.pojo.PageCondition;import lombok.Data;
+import cn.zf.swc.swcc.common.pojo.PageCondition;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 

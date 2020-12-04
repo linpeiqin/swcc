@@ -4,7 +4,6 @@ import cn.zf.swc.swcc.common.pojo.PageCondition;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 public class WaterUsageVo extends PageCondition implements Serializable {
@@ -13,5 +12,7 @@ public class WaterUsageVo extends PageCondition implements Serializable {
     private Double val;//值
 
     private String macCode;//物理地址
+
+    private Long wcId;
 
 }

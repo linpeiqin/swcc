@@ -17,7 +17,11 @@ public class WcInfo {
     private String info;//厕所名称
 
     private Date recordTime;//记录时间
-    private String location;//厕所位置
+
+    private Long location;//厕所位置
+
+
+    private Integer wcId;//客户端厕所ID
 
     private String password;//密码
 

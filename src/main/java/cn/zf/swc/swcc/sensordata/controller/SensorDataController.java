@@ -1,6 +1,8 @@
 package cn.zf.swc.swcc.sensordata.controller;
 
 import cn.zf.swc.swcc.common.controller.CommonController;
+import cn.zf.swc.swcc.common.pojo.PageInfo;
+import cn.zf.swc.swcc.common.pojo.Result;
 import cn.zf.swc.swcc.sensordata.pojo.SensorData;
 import cn.zf.swc.swcc.sensordata.service.SensorDataService;
 import cn.zf.swc.swcc.sensordata.vo.SensorDataVo;
@@ -19,5 +21,10 @@ public class SensorDataController extends CommonController<SensorDataVo, SensorD
     @GetMapping("sensorData")
     public ModelAndView sensorData(){
         return new ModelAndView("sensordata/sensordata");
+    }
+
+    @Override
+    public Result<PageInfo<SensorDataVo>> page(SensorDataVo entityVo) {
+        return super.page(entityVo);
     }
 }

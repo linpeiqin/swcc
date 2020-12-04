@@ -10,29 +10,48 @@
 </head>
 <body>
 <div class="layui-row layui-col-space15">
-    <div class="layui-col-md8">
+    <div class="layui-col-md12">
         <div class="layui-card">
             <div class="layui-card-header">报警数据</div>
             <div class="layui-card-body">
-                <!-- 表格主体 -->
-                <table class="layui-hide" id="warnDataTable" lay-filter="test"></table>
-                <!-- 模板 -->
-                <script type="text/html" id="warnDataTableToolbarDemo">
-                    <div class="layui-btn-container">
-                        <button class="layui-btn layui-btn-sm" lay-event="addData">新增</button>
-                        <input type="text" id="queryByWarnDataInfo" name="queryByWarnDataInfo" autocomplete="off"
-                               placeholder="请输入厕所名称" class="layui-input layui-btn-sm">
-                        <button class="layui-btn layui-btn-sm" lay-event="query">查询</button>
+                <form class="layui-form" >
+                    <div class="layui-inline layui-form-item">
+                        <label class="layui-form-label">选择厕所</label>
+                        <div class="layui-input-block">
+                            <select id='wcSelector' name="wcList" lay-verify="required" lay-filter="wcInfoSelector">
+                                <option value=""></option>
+                            </select>
+                        </div>
                     </div>
-                </script>
-                <script type="text/html" id="warnDataTableBarDemo">
+                    <div class="layui-inline layui-form-item">
+                        <label class="layui-form-label">开始时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="startDatePicker" class="layui-input" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-inline layui-form-item">
+                        <label class="layui-form-label">结束时间:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="endDatePicker" class="layui-input" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-inline tool-btn layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" id="rqueryButton"><i class="layui-icon layui-icon-add-circle"></i>查询</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- 表格主体 -->
+                <table class="layui-hide" id="warnDataTable" lay-filter="warnDataFilter"></table>
+
+              <!--  <script type="text/html" id="warnDataTableBarDemo">
                     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-                </script>
+                </script>-->
             </div>
         </div>
     </div>
-    <!-- 操作表单 -->
+   <!-- &lt;!&ndash; 操作表单 &ndash;&gt;
     <div class="layui-col-md4">
         <div class="layui-card">
             <div class="layui-card-header">操作表单</div>
@@ -85,10 +104,10 @@
                             <a class="layui-btn" onclick="warnDataFormSave()">保存</a>
                         </div>
                     </div>
-                    <!-- 隐藏域 -->
+                    &lt;!&ndash; 隐藏域 &ndash;&gt;
                     <input type="text" name="id" hidden="hidden"/>
                 </form>
-
+-->
             </div>
         </div>
     </div>

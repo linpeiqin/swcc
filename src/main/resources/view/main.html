@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--解决idea thymeleaf 表达式模板报红波浪线-->
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入公用部分 -->
+    <script th:replace="common/head::static"></script>
+    <link th:href="@{/common/admin2.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body class="layui-layout-body">
+    <!-- 内容主体区域 -->
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="welcome-left-container">
+                    <div class="data-show">
+                        <ul id="wcBrief" class="clearfix">
+                        </ul>
+                    </div>
+                    <div class="chart-panel panel panel-default">
+                        <div class="panel-body" id="chart" style="height: 376px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+<!-- js -->
+<script th:src="@{/common/echarts/echarts.js}"></script>
+<script th:src="@{/welcome/js/welcome.js}"></script>
+</html>

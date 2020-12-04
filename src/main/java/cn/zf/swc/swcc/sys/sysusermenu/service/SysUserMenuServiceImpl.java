@@ -28,28 +28,29 @@ public class SysUserMenuServiceImpl extends CommonServiceImpl<SysUserMenuVo, Sys
 
     @Override
     public Result<List<SysMenuVo>> findByUserId(String userId) {
-        List<SysMenuVo> menuVoList = new ArrayList<>();
+        List<SysMenuVo> menuVoListC = new ArrayList<>();
         List<SysUserMenuVo> sysUserMenuVoList = CopyUtil.copyList(sysUserMenuRepository.findByUserIdOrderBy(userId), SysUserMenuVo.class);
         sysUserMenuVoList.forEach((sysUserMenuVo) -> {
             SysMenuVo sysMenuVo = sysUserMenuVo.getSysMenu();
             if(StringUtils.isEmpty(sysMenuVo.getMenuParentId())){
-                //上级节点
-                menuVoList.add(sysMenuVo);
+                menuVoListC.add(sysMenuVo);
             }
         });
         sysUserMenuVoList.forEach((sysUserMenuVo) -> {
             SysMenuVo sysMenuVo = sysUserMenuVo.getSysMenu();
             if(!StringUtils.isEmpty(sysMenuVo.getMenuParentId())){
-                //子节点
-                menuVoList.forEach((sysMenuVoP) -> {
+                menuVoListC.forEach((sysMenuVoP) -> {
                     if(sysMenuVoP.getMenuId().equals(sysMenuVo.getMenuParentId())){
                         sysMenuVoP.getChildren().add(sysMenuVo);
                     }
                 });
             }
         });
-
-        return Result.of(menuVoList);
+        List<SysMenuVo> menuVoListP = new ArrayList<>();
+        SysMenuVo sysMenuVo = new SysMenuVo();
+        sysMenuVo.setChildren(menuVoListC);
+        menuVoListP.add(sysMenuVo);
+        return Result.of(menuVoListP);
     }
 
     @Override

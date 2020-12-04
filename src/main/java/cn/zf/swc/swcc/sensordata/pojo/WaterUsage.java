@@ -10,11 +10,12 @@ import javax.persistence.*;
 public class WaterUsage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;//传感器id
 
     private Double val;//值
 
     private String macCode;//物理地址
+
+    private Long wcId;
 
 }

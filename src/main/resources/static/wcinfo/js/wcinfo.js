@@ -1,13 +1,9 @@
 let tableIns;
 let tree;
-layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], function () {
+layui.use(['element', 'form', 'table', 'layer', 'laydate', 'util'], function () {
     let table = layui.table;
     let form = layui.form;//select、单选、复选等依赖form
-    let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-    let laydate = layui.laydate;
     tree = layui.tree;
-    let height = document.documentElement.clientHeight - 160;
-
     tableIns = table.render({
         elem: '#wcInfoTable'
         , url: ctx + '/wc/wcInfo/page'
@@ -34,52 +30,30 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
                 "rows": data.rows //解析数据列表
             };
         }
-        , toolbar: '#wcInfoTableToolbarDemo'
         , title: '厕所列表'
         , cols: [[
-            {field: 'id', title: '厕所ID'}
-            , {field: 'info', title: '厕所名称'}
-            , {field: 'location', title: '厕所位置'}
-            , {fixed: 'right', title: '操作', toolbar: '#wcInfoTableBarDemo'}
+            {field: 'sortNumber', title: '序号',type:'numbers'}
+            , {field: 'wcId', title: '厕所ID',sort: true}
+            , {field: 'info', title: '厕所名称',sort: true}
+            , {field: 'recordTime', title: '记录时间',sort: true}
+            , {field: 'macCode', title: '物理地址'}
+            , {fixed: 'right', title: '操作', toolbar: '#wcInfoTableBarDemo', fixed: 'right'}
         ]]
-        , defaultToolbar: ['', '', '']
         , page: true
-        , height: height
-        , cellMinWidth: 80
+        , height: 'full-155'
+        , cellMinWidth: 60
     });
-
+    initSelect(form);
     //头工具栏事件
-    table.on('toolbar(test)', function (obj) {
-        switch (obj.event) {
-            case 'addData':
-                //重置操作表单
-                $("#wcInfoForm")[0].reset();
-                form.render();
-                layer.msg("请填写右边的表单并保存！");
-                break;
-            case 'query':
-                let queryByWcInfoInfo = $("#queryByWcInfoInfo").val();
-                let query = {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , done: function (res, curr, count) {
-                        //完成后重置where，解决下一次请求携带旧数据
-                        this.where = {};
-                    }
-                };
-                if (queryByWcInfoInfo) {
-                    //设定异步数据接口的额外参数
-                    query.where = {info: queryByWcInfoInfo};
-                }
-                tableIns.reload(query);
-                $("#queryByWcInfoInfo").val(queryByWcInfoInfo);
-                break;
-        }
+    form.on('submit(addData)', function (obj) {
+        $("#wcInfoForm")[0].reset();
+        form.render();
+        layer.msg("请填写右边的表单并保存！");
+        return false;
     });
 
     //监听行工具事件
-    table.on('tool(test)', function (obj) {
+    table.on('tool(wcInfoFilter)', function (obj) {
         let data = obj.data;
         //删除
         if (obj.event === 'del') {
@@ -98,6 +72,24 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
             form.render();
         }
     });
+    //厕所切换
+    form.on('select(wcInfoSelector)', function (data) {
+        let wcId = data.value;
+        let query = {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+            , done: function (res, curr, count) {
+                //完成后重置where，解决下一次请求携带旧数据
+                this.where = {};
+            }
+        };
+        if (wcId) {
+            //设定异步数据接口的额外参数
+            query.where = {wcId: wcId};
+        }
+        tableIns.reload(query);
+    })
 });
 
 /**

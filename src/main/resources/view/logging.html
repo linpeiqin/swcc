@@ -36,8 +36,9 @@
 
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        //动态获取域名或ip
+        //动态获取域名或ip,此地使用本地的，需要修改
         let hostname = window.location.hostname;
+        //let hostname =
         port = window.location.port;
         websocket = new WebSocket("ws://"+hostname+":" + port + ctx + "/websocket/logging");
     } else {

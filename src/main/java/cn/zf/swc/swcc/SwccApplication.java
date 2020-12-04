@@ -192,6 +192,15 @@ class IndexController {
     }
 
     /**
+     * 后台欢迎页
+     *
+     * @return
+     */
+    @GetMapping("main")
+    public ModelAndView main() {
+            return new ModelAndView("main.html","port",port);
+    }
+    /**
      * 跳转实时日志
      */
     @GetMapping("logging")

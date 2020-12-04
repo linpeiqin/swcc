@@ -1,6 +1,7 @@
 package cn.zf.swc.swcc.sensorconfig.vo;
 
 import cn.zf.swc.swcc.common.pojo.PageCondition;
+import cn.zf.swc.swcc.wcinfo.vo.WcInfoVo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -23,5 +24,9 @@ public class SensorConfigVo extends PageCondition implements Serializable {
     private Date time;//创建时间
 
     private String macCode;//物理地址
+
+    private WcInfoVo wcInfoVo;//厕所信息
+
+    private Integer wcInfoWcId;
 
 }

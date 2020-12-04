@@ -1,6 +1,8 @@
 package cn.zf.swc.swcc.setinfo.vo;
 
 import cn.zf.swc.swcc.common.pojo.PageCondition;
+import cn.zf.swc.swcc.wcinfo.vo.WcInfoVo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,11 +15,16 @@ public class SetInfoVo extends PageCondition implements Serializable {
     private Long zigbeeMId;//总线ID
 
     private Long zigbeeBId;//厕位标识ID
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;//创建时间
+
+    private Long setId;//客户端厕位ID
 
     private Integer wcType;//厕所类型
 
     private String macCode;//物理地址
 
+    private WcInfoVo wcInfoVo;//厕所信息
+
+    private Integer wcInfoWcId;
 }

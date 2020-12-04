@@ -1,5 +1,6 @@
 package cn.zf.swc.swcc.sensorconfig.pojo;
 
+import cn.zf.swc.swcc.wcinfo.pojo.WcInfo;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -27,5 +28,9 @@ public class SensorConfig {
     private Date time;//创建时间
 
     private String macCode;//物理地址
+
+    @ManyToOne
+    @JoinColumn(name="WC_ID")
+    private WcInfo wcInfo;//厕所信息
 
 }

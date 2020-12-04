@@ -8,44 +8,60 @@
     <link rel="shortcut icon" th:href='${sys.sysLogo}' th:mce_href='${sys.sysLogo}' type="image/x-icon">
     <!-- 引入公用部分 -->
     <script th:replace="common/head::static"></script>
-    <script th:src="@{/common/admin.js}"></script>
-    <link th:href="@{/common/admin.css}" rel="stylesheet" type="text/css"/>
+    <script th:src="@{/assets/module/admin.js}"></script>
+    <link th:href="@{/assets/module/admin.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
 
     <!-- 头部区域（可配合layui已有的水平导航） -->
-    <div class="layui-header" >
+    <div class="layui-header">
         <div class="layui-logo">
             <img th:src='${sys.sysLogo}' class="layui-nav-img"/>
             <cite th:text="${sys.sysName}">&nbsp;</cite>
         </div>
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item" lay-unselect>
-                <a ew-event="flexible" title="侧边伸缩" ><i class="layui-icon layui-icon-shrink-right"></i></a>
+                <a ew-event="flexible" title="侧边伸缩"><i class="layui-icon layui-icon-shrink-right"></i></a>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a ew-event="refresh" title="刷新"><i class="layui-icon layui-icon-refresh-3"></i></a>
             </li>
             <!-- 动态读取加载用户快捷菜单 -->
-            <li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}" th:unless="${#lists.size(menu.children)} eq 0">
+            <li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}"
+                th:unless="${#lists.size(menu.children)} eq 0">
                 <a th:text="${menu.shortcutMenuName}" href="javascript:;">XXX</a>
-                <dl class="layui-nav-child" >
-                    <dd th:each="childMenu,iterStat : ${menu.children}"><a class="linking-menu" th:data-url="${childMenu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + childMenu.shortcutMenuPath : childMenu.shortcutMenuPath}" th:data-id="${childMenu.shortcutMenuId}" th:text="${childMenu.shortcutMenuName}" href="javascript:;">XXX</a></dd>
+                <dl class="layui-nav-child">
+                    <dd th:each="childMenu,iterStat : ${menu.children}"><a class="linking-menu"
+                                                                           th:data-url="${childMenu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + childMenu.shortcutMenuPath : childMenu.shortcutMenuPath}"
+                                                                           th:data-id="${childMenu.shortcutMenuId}"
+                                                                           th:text="${childMenu.shortcutMenuName}"
+                                                                           href="javascript:;">XXX</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}" th:if="${#lists.size(menu.children)} eq 0">
-                <a class="linking-menu" th:data-url="${menu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + menu.shortcutMenuPath : menu.shortcutMenuPath}" th:data-id="${menu.shortcutMenuId}" th:text="${menu.shortcutMenuName}" href="javascript:;">XXX</a>
+            <li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}"
+                th:if="${#lists.size(menu.children)} eq 0">
+                <a class="linking-menu"
+                   th:data-url="${menu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + menu.shortcutMenuPath : menu.shortcutMenuPath}"
+                   th:data-id="${menu.shortcutMenuId}" th:text="${menu.shortcutMenuName}" href="javascript:;">XXX</a>
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item layui-hide-xs" lay-unselect>
                 <a ew-event="fullScreen" title="全屏"><i class="layui-icon layui-icon-screen-full"></i></a>
             </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a ew-event="theme" title="主题"><i class="layui-icon layui-icon-more-vertical"></i></a>
+            </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <span th:text="${loginUser.userName}">XXX</span>
+                    <span th:text="${loginUser.userName}"></span>
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a class="linking-menu" th:data-url="${#request.getContextPath()} + '/user/userinfo'" data-id="userinfo" href="javascript:;">基本资料</a></dd>
-                    <dd><a class="linking-menu" th:data-url="${#request.getContextPath()} + '/user/shortcMenu'" data-id="shortcMenu" href="javascript:;">个性菜单</a></dd>
+                    <dd><a class="linking-menu" th:data-url="${#request.getContextPath()} + '/user/userinfo'"
+                           data-id="userinfo" href="javascript:;">基本资料</a></dd>
+                    <dd><a class="linking-menu" th:data-url="${#request.getContextPath()} + '/user/shortcMenu'"
+                           data-id="shortcMenu" href="javascript:;">个性菜单</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a th:href="@{/logout}">退出</a></li>
@@ -53,46 +69,32 @@
     </div>
 
     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-    <div class="layui-side layui-bg-black"  th:style="${' background-color:' + sys.sysColor + ' !important;'}">
-        <div class="layui-side-scroll">
-            <ul class="layui-nav layui-nav-tree" lay-filter="test"  th:style="${' background-color:' + sys.sysColor + ' !important;'}">
-                <!-- 动态读取加载系统菜单 -->
-                    <li class="layui-nav-item" th:each="menu,iterStat : ${menuList}">
-                       <!-- <a th:if="${#lists.size(menu.children)} eq 0">
-                            <i class="layui-icon layui-icon-username"></i>
-                            <a class="linking-menu" th:data-url="${#request.getContextPath() + menu.menuPath}" th:data-id="${menu.menuId}" th:text="${menu.menuName}" href="javascript:;">XXX</a>
-                        </a>-->
-                        <a th:unless="${#lists.size(menu.children)} eq 0">
-                            <i class="layui-icon layui-icon-username"></i>
-                            <cite th:text="${menu.menuName}"></cite>
-                        </a>
-                        <dl class="layui-nav-child" >
-                            <dd th:each="childMenu,iterStat : ${menu.children}"><a class="linking-menu" th:data-url="${#request.getContextPath() + childMenu.menuPath}" th:data-id="${childMenu.menuId}" th:text="${childMenu.menuName}" href="javascript:;"><i class="iconfont">&#xe604;</i></a></dd>
-                        </dl>
-                    </li>
-
+    <div class="layui-side layui-bg-black" th:style="${' background-color:' + sys.sysColor + ' !important;'}">
+        <div class="layui-side-scroll" >
+            <ul th:each="item,itemStat:${menuList}" th:class="'layui-nav layui-nav-tree ' + (${itemStat.index > 0} ? 'layui-hide' : '')" th:nav-id="'xt'+${itemStat.index+1}" lay-filter="admin-side-nav" lay-shrink="_all" style="margin: 15px 0;"  >
+                <li th:each="subItem,subStat:${item.children}" class="layui-nav-item">
+                    <a><i class="layui-icon layui-icon-username"></i>&emsp;<cite th:text="${subItem.menuName}"></cite></a>
+                    <dl class="layui-nav-child">
+                        <dd th:each="menu,menuStat:${subItem.children}"><a th:lay-href="${#request.getContextPath() + menu.menuPath}" th:text="${menu.menuName}"></a></dd>
+                    </dl>
+                </li>
             </ul>
         </div>
     </div>
 
     <!-- 内容主体区域 -->
-    <div class="layui-body" style="overflow-y: hidden;">
-        <!--   动态选项卡   -->
-        <div class="layui-tab" lay-filter="admin-pagetabs" lay-allowclose="true">
-            <!-- 标题 -->
-            <ul class="layui-tab-title">
-                <li class="layui-icon layui-icon-home" lay-id="11" ></li>
-            </ul>
-            <!-- 内容 -->
-            <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="layui-body"></div>
     <!-- 底部固定区域 -->
     <div class="layui-footer" th:utext="${sys.sysBottomText}"></div>
+    <!-- 加载动画 -->
 </div>
+<div class="page-loading">
+    <div class="ball-loader">
+        <span></span><span></span><span></span><span></span>
+    </div>
+</div>
+<!-- js -->
+<script th:src="@{/assets/js/common.js}"></script>
 <script th:inline="javascript">
     //获取后端RSA公钥并存到sessionStorage
     sessionStorage.setItem('javaPublicKey', [[${publicKey}]]);
@@ -104,28 +106,16 @@
     jQueryExtend.ajaxExtend();
 </script>
 <script>
-    layui.use('element', function () {
-        let element = layui.element;
-
-        $("body").on("click", ".linking-menu", function (e) {
-            let url = $(this).data("url");
-            let id = $(this).data("id");
-            let text = $(this).text();
-
-            //如果不存在
-            if ($(".layui-tab-title").find("li[lay-id='" + id + "']").length <= 0) {
-                let height = document.documentElement.clientHeight - 160 + "px";
-                element.tabAdd('admin-pagetabs', {
-                    title: text,
-                    //iframe子页面onload新增监听src为/loginPage是父页面跳转/loginPage，解决“俄罗斯套娃”问题
-                    content: "<iframe onload='if(this.contentWindow.location.pathname == \""+ctx+"/loginPage\"){window.location.href = \""+ctx+"/loginPage\"} $(this)[0].height = document.documentElement.clientHeight-160' width='100%' height='" + height + "' frameborder='0' scrolling='auto' src=\"" + url + "\"></iframe>",
-                    id: id
-                });
-            }
-            element.tabChange('admin-pagetabs', id);
+    layui.use(['index'], function () {
+        var index = layui.index;
+        // 默认加载主页
+        index.loadHome({
+            menuPath: ctx+'/main',
+            menuName: '<i class="layui-icon layui-icon-home"></i>'
         });
     });
 
 </script>
 </body>
+
 </html>

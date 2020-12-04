@@ -30,4 +30,6 @@ public class SensorData {
 
     private String macCode;//物理地址
 
+    private Long wcId;
+
 }

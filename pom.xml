@@ -142,8 +142,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <finalName>${project.artifactId}</finalName>
-                    <outputDirectory>../package</outputDirectory>
+                 <!--   <finalName>${project.artifactId}</finalName>
+                    <outputDirectory>package</outputDirectory>-->
+                    <executable>true</executable>
                 </configuration>
             </plugin>
             <!-- 跳过启动测试 -->

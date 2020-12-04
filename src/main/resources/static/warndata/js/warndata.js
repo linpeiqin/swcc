@@ -6,7 +6,6 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
     let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
     let laydate = layui.laydate;
     tree = layui.tree;
-    let height = document.documentElement.clientHeight - 160;
 
     tableIns = table.render({
         elem: '#warnDataTable'
@@ -34,9 +33,9 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
                 "rows": data.rows //解析数据列表
             };
         }
-        , toolbar: '#warnDataTableToolbarDemo'
         , title: '报警数据'
         , cols: [[
+            {field: 'sortNumber', title: '序号',type:'numbers'}
             , {field: 'time', title: '开始时间'}
             , {field: 'disposeTime', title: '处理时间'}
             , {field: 'status', title: '处理状态'}
@@ -45,44 +44,35 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
             , {field: 'disposeInfo', title: '备注'}
             , {fixed: 'right', title: '操作', toolbar: '#warnDataTableBarDemo'}
         ]]
-        , defaultToolbar: ['', '', '']
         , page: true
-        , height: height
+        , height: 'full-160'
         , cellMinWidth: 60
     });
 
-    //头工具栏事件
-    table.on('toolbar(test)', function (obj) {
-        switch (obj.event) {
-            case 'addData':
-                //重置操作表单
-                $("#warnDataForm")[0].reset();
-                form.render();
-                layer.msg("请填写右边的表单并保存！");
-                break;
-            case 'query':
-                let queryByWarnDataInfo = $("#queryByWarnDataInfo").val();
-                let query = {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , done: function (res, curr, count) {
-                        //完成后重置where，解决下一次请求携带旧数据
-                        this.where = {};
-                    }
-                };
-                if (queryByWarnDataInfo) {
-                    //设定异步数据接口的额外参数
-                    query.where = {info: queryByWarnDataInfo};
-                }
-                tableIns.reload(query);
-                $("#queryByWarnDataInfo").val(queryByWarnDataInfo);
-                break;
+    initSelect(form);
+    // 刷新按钮
+    $("#rqueryButton").click(function() {
+        let wcId = $('#wcSelector').val();
+        let startDate = $('#startDatePicker').val();
+        let endDate = $('#endDatePicker').val();
+        let query = {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+            , done: function (res, curr, count) {
+                //完成后重置where，解决下一次请求携带旧数据
+                this.where = {};
+            }
+        };
+        if (wcId) {
+            //设定异步数据接口的额外参数
+            query.where = {wcInfoWcId: wcId};
         }
-    });
-
+        tableIns.reload(query);
+        return false;
+    })
     //监听行工具事件
-    table.on('tool(test)', function (obj) {
+    /*table.on('tool(warnDataFilter)', function (obj) {
         let data = obj.data;
         //删除
         if (obj.event === 'del') {
@@ -100,6 +90,18 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
             $("#warnDataForm").form(data);
             form.render();
         }
+    });*/
+    //日期选择器
+    laydate.render({
+        elem: '#startDatePicker',
+        theme:'#8470FF',
+        type: 'datetime', //选择时间
+    });
+    //日期选择器
+    laydate.render({
+        elem: '#endDatePicker',
+        theme:'#8470FF',
+        type: 'datetime', //选择时间
     });
 });
 

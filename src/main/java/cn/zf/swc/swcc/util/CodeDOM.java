@@ -19,12 +19,12 @@ public class CodeDOM {
      * 构造参数，出入表名
      */
     private CodeDOM(String tableName) {
+        basePackage_ = "cn\\zf\\swc\\swcc\\";
         this.tableName = tableName;
-        basePackage_ = "cn\\huanzi\\qch\\baseadmin\\sys\\";
         package_ = basePackage_ + StringUtil.camelCaseName(tableName).toLowerCase() + "\\";
         //System.getProperty("user.dir") 获取的是项目所在路径，如果我们是子项目，则需要添加一层路径
         basePath = System.getProperty("user.dir") + "\\src\\main\\java\\" + package_;
-        basePackage_ = "cn\\huanzi\\qch\\baseadmin\\";
+
     }
 
     /**
@@ -240,7 +240,7 @@ public class CodeDOM {
         ArrayList<TableInfo> list = new ArrayList<>();
         try {
             conn = DBConnectionUtil.getConnection();
-            String sql = "select column_name,data_type,column_comment,column_key,extra from information_schema.columns where table_name=?";
+            String sql = "select column_name,data_type,column_comment,column_key,extra from information_schema.columns where table_schema = (select database()) and table_name=?";
             ps = conn.prepareStatement(sql);
             ps.setString(1, tableName);
             rs = ps.executeQuery();

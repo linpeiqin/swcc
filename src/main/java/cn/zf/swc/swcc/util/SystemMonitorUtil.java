@@ -125,7 +125,7 @@ public class SystemMonitorUtil {
         String resultInfo = runCommand(ioCmdStr);
         log.info(resultInfo);
         String[] data = resultInfo.split(" +");
-        double total = Double.parseDouble(data[10].replace("%", ""));
+        double total = Double.parseDouble(data[9].replace("%", ""));
         return hashMap;
     }
 

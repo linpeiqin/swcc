@@ -1,17 +1,28 @@
 package wc.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class WcInfoDto implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
     private int id;
     private String info;
-    private String time;
+    private Date recordTime;
     private long location;
     private String password;
     private String messageId;
+    private String macCode;
 
 
+    public String getMacCode() {
+        return macCode;
+    }
+
+    public void setMacCode(String macCode) {
+        this.macCode = macCode;
+    }
     public String getMessageId() {
         return messageId;
     }
@@ -52,12 +63,11 @@ public class WcInfoDto implements Serializable {
         this.password = password;
     }
 
-    public String getTime() {
-        return time;
+    public Date getRecordTime() {
+        return recordTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setRecordTime(Date recordTime) {
+        this.recordTime = recordTime;
     }
-
 }
