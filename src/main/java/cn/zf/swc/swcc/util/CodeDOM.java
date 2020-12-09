@@ -18,10 +18,20 @@ public class CodeDOM {
     /**
      * 构造参数，出入表名
      */
-    private CodeDOM(String tableName) {
+    private CodeDOM(String tableName,String packageName,String objectName) {
         basePackage_ = "cn\\zf\\swc\\swcc\\";
         this.tableName = tableName;
-        package_ = basePackage_ + StringUtil.camelCaseName(tableName).toLowerCase() + "\\";
+        this.objectName = objectName;
+        if (objectName != null){
+            this.objectName = objectName;
+        } else {
+            this.objectName = tableName;
+        }
+        if (packageName != null){
+            package_ = basePackage_ + packageName + "\\";
+        } else {
+            package_ = basePackage_ + StringUtil.camelCaseName(tableName).toLowerCase() + "\\";
+        }
         //System.getProperty("user.dir") 获取的是项目所在路径，如果我们是子项目，则需要添加一层路径
         basePath = System.getProperty("user.dir") + "\\src\\main\\java\\" + package_;
 
@@ -30,15 +40,18 @@ public class CodeDOM {
     /**
      * 数据连接相关
      */
-    private static final String URL = "jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8&characterEncoding=utf-8";
+    private static final String URL = "jdbc:mysql://localhost:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "123456";
-    private static final String DRIVER_CLASSNAME = "com.mysql.jdbc.Driver";
+    private static final String DRIVER_CLASSNAME = "com.mysql.cj.jdbc.Driver";
     /**
      * 表名
      */
     private String tableName;
-
+    /**
+     * 类名
+     */
+    private String objectName;
     /**
      * 基础路径
      */
@@ -50,7 +63,7 @@ public class CodeDOM {
      * 创建pojo实体类
      */
     private void createPojo(List<TableInfo> tableInfos) {
-        File file = FileUtil.createFile(basePath + "pojo\\" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ".java");
+        File file = FileUtil.createFile(basePath + "pojo\\" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ".java");
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(
                 "package " + package_.replaceAll("\\\\", ".") + "pojo;\n" +
@@ -63,7 +76,7 @@ public class CodeDOM {
                         "@Entity\n" +
                         "@Table(name = \"" + tableName + "\")\n" +
                         "@Data\n" +
-                        "public class " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + " implements Serializable {\n"
+                        "public class " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + " implements Serializable {\n"
         );
         //遍历设置属性
         for (TableInfo tableInfo : tableInfos) {
@@ -85,7 +98,7 @@ public class CodeDOM {
      * 创建vo类
      */
     private void createVo(List<TableInfo> tableInfos) {
-        File file = FileUtil.createFile(basePath + "vo\\" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Vo.java");
+        File file = FileUtil.createFile(basePath + "vo\\" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo.java");
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(
                 "package " + package_.replaceAll("\\\\", ".") + "vo;\n" +
@@ -96,7 +109,7 @@ public class CodeDOM {
                         "import java.util.Date;\n" +
                         "\n" +
                         "@Data\n" +
-                        "public class " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Vo extends PageCondition implements Serializable {\n"
+                        "public class " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo extends PageCondition implements Serializable {\n"
         );
         //遍历设置属性
         for (TableInfo tableInfo : tableInfos) {
@@ -110,7 +123,7 @@ public class CodeDOM {
      * 创建repository类
      */
     private void createRepository(List<TableInfo> tableInfos) {
-        File file = FileUtil.createFile(basePath + "repository\\" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Repository.java");
+        File file = FileUtil.createFile(basePath + "repository\\" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Repository.java");
         StringBuffer stringBuffer = new StringBuffer();
         String t = "String";
         //遍历属性
@@ -124,11 +137,11 @@ public class CodeDOM {
                 "package " + package_.replaceAll("\\\\", ".") + "repository;\n" +
                         "\n" +
                         "import " + basePackage_.replaceAll("\\\\", ".") + "common.repository.*;\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "pojo." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ";\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "pojo." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ";\n" +
                         "import org.springframework.stereotype.Repository;\n" +
                         "\n" +
                         "@Repository\n" +
-                        "public interface " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Repository extends CommonRepository<" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ", " + t + "> {"
+                        "public interface " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Repository extends CommonRepository<" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ", " + t + "> {"
         );
         stringBuffer.append("\n");
         stringBuffer.append("}");
@@ -139,7 +152,7 @@ public class CodeDOM {
      * 创建service类
      */
     private void createService(List<TableInfo> tableInfos) {
-        File file = FileUtil.createFile(basePath + "service\\" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Service.java");
+        File file = FileUtil.createFile(basePath + "service\\" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Service.java");
         StringBuffer stringBuffer = new StringBuffer();
         String t = "String";
         //遍历属性
@@ -153,25 +166,25 @@ public class CodeDOM {
                 "package " + package_.replaceAll("\\\\", ".") + "service;\n" +
                         "\n" +
                         "import " + basePackage_.replaceAll("\\\\", ".") + "common.service.*;\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "pojo." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ";\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "vo." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Vo;\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "pojo." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ";\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "vo." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo;\n" +
                         "\n" +
-                        "public interface " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Service extends CommonService<" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Vo, " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ", " + t + "> {"
+                        "public interface " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Service extends CommonService<" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo, " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ", " + t + "> {"
         );
         stringBuffer.append("\n");
         stringBuffer.append("}");
         FileUtil.fileWriter(file, stringBuffer);
 
         //Impl
-        File file1 = FileUtil.createFile(basePath + "service\\" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "ServiceImpl.java");
+        File file1 = FileUtil.createFile(basePath + "service\\" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "ServiceImpl.java");
         StringBuffer stringBuffer1 = new StringBuffer();
         stringBuffer1.append(
                 "package " + package_.replaceAll("\\\\", ".") + "service;\n" +
                         "\n" +
                         "import " + basePackage_.replaceAll("\\\\", ".") + "common.service.*;\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "pojo." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ";\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "vo." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Vo;\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "repository." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Repository;\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "pojo." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ";\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "vo." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo;\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "repository." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Repository;\n" +
                         "import org.springframework.beans.factory.annotation.Autowired;\n" +
                         "import org.springframework.stereotype.Service;\n" +
                         "import org.springframework.transaction.annotation.Transactional;\n" +
@@ -180,7 +193,7 @@ public class CodeDOM {
                         "\n" +
                         "@Service\n" +
                         "@Transactional\n" +
-                        "public class " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "ServiceImpl extends CommonServiceImpl<" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Vo, " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ", " + t + "> implements " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Service{"
+                        "public class " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "ServiceImpl extends CommonServiceImpl<" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo, " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ", " + t + "> implements " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Service{"
         );
         stringBuffer1.append("\n\n");
         stringBuffer1.append(
@@ -189,7 +202,7 @@ public class CodeDOM {
 
         stringBuffer1.append("" +
                 "    @Autowired\n" +
-                "    private " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Repository " + StringUtil.camelCaseName(tableName) + "Repository;\n");
+                "    private " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Repository " + StringUtil.camelCaseName(objectName) + "Repository;\n");
         stringBuffer1.append("}");
         FileUtil.fileWriter(file1, stringBuffer1);
     }
@@ -198,7 +211,7 @@ public class CodeDOM {
      * 创建controller类
      */
     private void createController(List<TableInfo> tableInfos) {
-        File file = FileUtil.createFile(basePath + "controller\\" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Controller.java");
+        File file = FileUtil.createFile(basePath + "controller\\" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Controller.java");
         StringBuffer stringBuffer = new StringBuffer();
         String t = "String";
         //遍历属性
@@ -212,20 +225,20 @@ public class CodeDOM {
                 "package " + package_.replaceAll("\\\\", ".") + "controller;\n" +
                         "\n" +
                         "import " + basePackage_.replaceAll("\\\\", ".") + "common.controller.*;\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "pojo." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ";\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "vo." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Vo;\n" +
-                        "import " + package_.replaceAll("\\\\", ".") + "service." + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Service;\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "pojo." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ";\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "vo." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo;\n" +
+                        "import " + package_.replaceAll("\\\\", ".") + "service." + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Service;\n" +
                         "import org.springframework.beans.factory.annotation.Autowired;\n" +
                         "import org.springframework.web.bind.annotation.*;\n" +
                         "\n" +
                         "@RestController\n" +
-                        "@RequestMapping(\"/sys/" + StringUtil.camelCaseName(tableName) + "/\")\n" +
-                        "public class " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Controller extends CommonController<" + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Vo, " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + ", " + t + "> {"
+                        "@RequestMapping(\"/wc/" + StringUtil.camelCaseName(objectName) + "/\")\n" +
+                        "public class " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Controller extends CommonController<" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo, " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ", " + t + "> {"
         );
         stringBuffer.append("\n");
         stringBuffer.append("" +
                 "    @Autowired\n" +
-                "    private " + StringUtil.captureName(StringUtil.camelCaseName(tableName)) + "Service " + StringUtil.camelCaseName(tableName) + "Service;\n");
+                "    private " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Service " + StringUtil.camelCaseName(objectName) + "Service;\n");
         stringBuffer.append("}");
         FileUtil.fileWriter(file, stringBuffer);
     }
@@ -372,9 +385,11 @@ public class CodeDOM {
          */
         static String captureName(String name) {
             char[] cs = name.toCharArray();
+            if (cs[0] >= 'A' && cs[0] <= 'Z'){
+                return name;
+            }
             cs[0] -= 32;
             return String.valueOf(cs);
-
         }
 
         /**
@@ -528,11 +543,13 @@ public class CodeDOM {
         return tableName + " 后台代码生成完毕！";
     }
 
-//    public static void main(String[] args) {
-//        String[] tables = {"sys_user","sys_menu","sys_authority","sys_user_menu","sys_user_authority","sys_shortcut_menu","sys_setting"};
-//        for (String table : tables) {
-//            String msg = new CodeDOM(table).create();
-//            System.out.println(msg);
-//        }
-//    }
+    public static void main(String[] args) {
+      /*  String[] tables = {"sys_user","sys_menu","sys_authority","sys_user_menu","sys_user_authority","sys_shortcut_menu","sys_setting"};
+        for (String table : tables) {
+            String msg = new CodeDOM(table,null,null).create();
+           System.out.println(msg);
+        }*/
+       String msg = new CodeDOM("CWC_WC_INFO_USER","wcinfo","wcInfoUser").create();
+       System.out.println(msg);
+    }
 }

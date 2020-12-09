@@ -1,6 +1,6 @@
 let tableIns;
 let tree;
-layui.use(['element', 'form', 'table', 'layer', 'laydate', 'util'], function () {
+layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree','util'], function () {
     let table = layui.table;
     let form = layui.form;//select、单选、复选等依赖form
     tree = layui.tree;
@@ -37,7 +37,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'util'], function () 
             , {field: 'info', title: '厕所名称',sort: true}
             , {field: 'recordTime', title: '记录时间',sort: true}
             , {field: 'macCode', title: '物理地址'}
-            , {fixed: 'right', title: '操作', toolbar: '#wcInfoTableBarDemo', fixed: 'right'}
+            , {fixed: 'right', title: '操作', toolbar: '#wcInfoTableBarDemo'}
         ]]
         , page: true
         , height: 'full-155'
@@ -70,6 +70,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'util'], function () 
             //回显操作表单
             $("#wcInfoForm").form(data);
             form.render();
+            loadUserTree();
         }
     });
     //厕所切换
@@ -97,8 +98,62 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'util'], function () 
  */
 function wcInfoFormSave() {
     let wcInfoForm = $("#wcInfoForm").serializeObject();
+    wcInfoForm.updateTime = commonUtil.getNowTime();
     $.post(ctx + "/wc/wcInfo/save", wcInfoForm, function (data) {
+        if(!data.flag){
+            layer.msg(data.msg, {icon: 2,time: 2000}, function () {});
+            return;
+        }
+        //保存厕所关联用户,只要userId，以及Id集合就可以了
+        let userIdList = [];
+        for (let check of tree.getChecked('wcInfoUserTree')[0].children) {
+            userIdList.push(check.id);
+        }
+        let postData = {
+            wcInfoId: data.data.id,
+            userIdList: userIdList.join(",")
+        };
+        $.post(ctx + "/wc/wcInfoUser/saveAllByWcInfoId", postData, function (data) {});
         layer.msg("保存成功", {icon: 1,time: 2000}, function () {});
         tableIns.reload();
+    });
+}
+
+/**
+ * 加载厕所关联用户
+ */
+function loadUserTree() {
+    let wcInfoForm = $("#wcInfoForm").serializeObject();
+    wcInfoForm.wcInfoId = wcInfoForm.id;
+    //获取关联用户数据
+    $.post(ctx + "/wc/wcInfoUser/findWcInfoUserAndAllUserByWcInfoId", wcInfoForm, function (data) {
+        let treeData = [];
+        for (let user of data.data.sysUserVoList) {
+            let tree = {
+                title: user.userName
+                , id: user.userId
+                , spread: true
+            };
+            //回显厕所关联用户
+            for (let wcInfoUser of data.data.wcInfoUserVoList){
+                if (wcInfoUser.userId == user.userId){
+                    tree.checked = true;
+                }
+            }
+            treeData.push(tree);
+        }
+        //开启节点操作图标
+        tree.render({
+            elem: '#wcInfoUserTree'
+            , id: 'wcInfoUserTree'
+            , data: [{
+                title: '用户根节点'
+                , href: "/"
+                , id: 0
+                , spread: true
+                , children: treeData
+            }]
+            , showCheckbox: true
+        });
     });
 }

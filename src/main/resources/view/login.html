@@ -70,6 +70,7 @@
 </div>
 </body>
 <script th:inline="javascript">
+    sessionStorage.clear();
     //获取后端RSA公钥并存到sessionStorage
     sessionStorage.setItem('javaPublicKey', [[${publicKey}]]);
 

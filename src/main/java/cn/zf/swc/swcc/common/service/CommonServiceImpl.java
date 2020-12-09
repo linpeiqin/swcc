@@ -114,8 +114,9 @@ public class CommonServiceImpl<V, E, T> implements CommonService<V, E, T> {
                             entityFull = one.get();
                         }
                     }else{
-                        //如果ID主键类型为Long,则不处理
-                        if (field.getType() != Long.class) {
+                        //如果ID主键类型为Long或者Integer,pojo设置自增长，此处不处理
+                        if (field.getType() == Long.class || field.getType() == Integer.class) {
+                        } else {
                             //如果Id主键为空，则为新增
                             fieldValue = UUIDUtil.getUUID();
                             //set方法，第一个参数是对象

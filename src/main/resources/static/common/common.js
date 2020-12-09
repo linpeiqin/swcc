@@ -169,19 +169,6 @@ jQueryExtend = {
             jQueryExtend.ajaxExtendFlag = true;
             let _ajax = $.ajax;//首先备份下jquery的ajax方法
             $.ajax = function (opt) {
-                //默认值
-                // opt = {
-                //     type: 'post',
-                //     url: url,
-                //     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                //     dataType: 'json',
-                //     data: data,
-                //     success: success,
-                //     error: function (xhr, status, error) {
-                //         console.log("ajax错误！");
-                //     }
-                // };
-
                 //备份opt中error和success方法
                 let fn = {
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
