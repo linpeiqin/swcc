@@ -7,7 +7,8 @@ layui.use(['form'], function () {
  */
 function userFormSave() {
     $.post(ctx + "/user/updateUser", $("#userForm").serializeObject(), function (data) {
-        layer.msg("修改成功！", {icon: 1, time: 2000}, function () {});
+        layer.msg("修改成功！", {icon: 1, time: 2000}, function () {
+        });
         $("#userForm").form(data.data);
     });
 }

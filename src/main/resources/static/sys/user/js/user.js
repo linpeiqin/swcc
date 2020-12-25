@@ -154,7 +154,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree', 'util'], func
         else if (obj.event === 'edit') {
             //回显操作表单
             $("#userForm").form(data);
-            $("input[name='loginName']").attr("readonly","readonly");
+            $("input[name='loginName']").attr("readonly", "readonly");
             form.render();
             loadMenuTree();
             loadAuthorityTree();
@@ -186,8 +186,9 @@ function userFormSave() {
     userForm.updateTime = commonUtil.getNowTime();
     $.post(ctx + "/sys/sysUser/save", userForm, function (data) {
 
-        if(!data.flag){
-            layer.msg(data.msg, {icon: 2,time: 2000}, function () {});
+        if (!data.flag) {
+            layer.msg(data.msg, {icon: 2, time: 2000}, function () {
+            });
             return;
         }
 
@@ -205,7 +206,8 @@ function userFormSave() {
             userId: data.data.userId,
             menuIdList: menuIdList.join(",")
         };
-        $.post(ctx + "/sys/sysUserMenu/saveAllByUserId", postData, function (data) {});
+        $.post(ctx + "/sys/sysUserMenu/saveAllByUserId", postData, function (data) {
+        });
 
         let authorityIdList = [];
         for (let check of tree.getChecked('userAuthorityTree')[0].children) {
@@ -215,10 +217,12 @@ function userFormSave() {
             userId: data.data.userId,
             authorityIdList: authorityIdList.join(",")
         };
-        $.post(ctx + "/sys/sysUserAuthority/saveAllByUserId", postData2, function (data) {});
+        $.post(ctx + "/sys/sysUserAuthority/saveAllByUserId", postData2, function (data) {
+        });
 
 
-        layer.msg("保存成功", {icon: 1, time: 2000}, function () {});
+        layer.msg("保存成功", {icon: 1, time: 2000}, function () {
+        });
 
         //更新table、updateTime
         $("input[name='updateTime']").val(userForm.updateTime);
@@ -240,7 +244,8 @@ function resetPassword() {
     layer.confirm('确认重置该用户的密码吗？', function (index) {
         $.post(ctx + "/sys/sysUser/resetPassword", userForm, function (data) {
             if (data.flag) {
-                layer.msg("密码重置成功，请尽快通知用户登录系统修改密码！", {icon: 1, time: 2000}, function () {});
+                layer.msg("密码重置成功，请尽快通知用户登录系统修改密码！", {icon: 1, time: 2000}, function () {
+                });
             }
             layer.close(index);
         });
@@ -293,7 +298,7 @@ function loadAuthorityTree() {
                 , spread: true
             };
             //回显用户权限
-            if(userTreeString.search(authority.authorityId) !== -1){
+            if (userTreeString.search(authority.authorityId) !== -1) {
                 tree.checked = true;
             }
             treeData.push(tree);

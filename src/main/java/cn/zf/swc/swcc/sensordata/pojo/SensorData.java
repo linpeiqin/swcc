@@ -1,6 +1,8 @@
 package cn.zf.swc.swcc.sensordata.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,6 +22,8 @@ public class SensorData {
 
     private Long sensorId;//传感器ID
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date time;//创建时间
 
     private Double value1;
@@ -32,4 +36,7 @@ public class SensorData {
 
     private Long wcId;
 
+    private Date createTime;//创建时间
+
+    private Date updateTime;//修改时间
 }

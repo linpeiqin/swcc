@@ -12,23 +12,24 @@
 <div class="layui-row layui-col-space15">
     <div class="layui-col-md8">
         <div class="layui-card">
-            <div class="layui-card-header">厕位信息</div>
             <div class="layui-card-body">
                 <!--工具栏-->
-                <form class="layui-form" >
+                <form class="layui-form">
                     <div class="layui-form-item">
-                    <div class="layui-inline ">
-                        <div class="layui-input-inline">
-                            <select id='wcSelector' name="wcList" lay-verify="required" lay-filter="wcInfoSelector">
-                                <option value=""></option>
-                            </select>
+                        <div class="layui-inline ">
+                            <div class="layui-input-inline">
+                                <select id='wcSelector' name="wcList" lay-verify="required" lay-filter="wcInfoSelector">
+                                    <option value=""></option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="layui-inline ">
-                        <div class="layui-input-inline">
-                        <button class="layui-btn" lay-submit lay-filter="addData"><i class="layui-icon layui-icon-add-circle"></i>新增</button>
+                        <div class="layui-inline ">
+                            <div class="layui-input-inline">
+                                <button class="layui-btn" lay-submit lay-filter="addData"><i
+                                        class="layui-icon layui-icon-add-circle"></i>新增
+                                </button>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </form>
                 <!-- 表格主体 -->
@@ -64,7 +65,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">厕所类型</label>
                         <div class="layui-input-block">
-                            <input type="text" name="wcType" autocomplete="off" placeholder="厕所类型"
+                            <input type="text" name="wcTypeName" autocomplete="off" placeholder="厕所类型"
                                    class="layui-input">
                         </div>
                     </div>

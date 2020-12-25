@@ -314,7 +314,7 @@
     function forEach(data, callback) {
         if (data && isFunction(callback)) {
             if (Array.isArray(data) || isNumber(data.length)
-            /* array-like */
+                /* array-like */
             ) {
                 toArray(data).forEach(function (value, key) {
                     callback.call(data, value, key, data);
@@ -1100,7 +1100,7 @@
                     littleEndian = endianness === 0x4949;
 
                     if (littleEndian || endianness === 0x4D4D
-                    /* bigEndian */
+                        /* bigEndian */
                     ) {
                         if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
                             var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
@@ -1124,7 +1124,7 @@
                     _offset = ifdStart + i * 12 + 2;
 
                     if (dataView.getUint16(_offset, littleEndian) === 0x0112
-                    /* Orientation */
+                        /* Orientation */
                     ) {
                         // 8 is the offset of the current tag's value
                         _offset += 8; // Get the original orientation value

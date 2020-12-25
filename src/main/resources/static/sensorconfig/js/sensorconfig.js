@@ -1,10 +1,9 @@
 let tableIns;
 let tree;
-layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], function () {
+layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree', 'util'], function () {
     let table = layui.table;
     let form = layui.form;//select、单选、复选等依赖form
     tree = layui.tree;
-
     tableIns = table.render({
         elem: '#sensorConfigTable'
         , url: ctx + '/wc/sensorConfig/page'
@@ -33,66 +32,55 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
         }
         , title: '传感器列表'
         , cols: [[
-            {field: 'sortNumber', title: '序号',type:'numbers'}
+            {field: 'sortNumber', title: '序号', type: 'numbers'}
             , {field: 'wcInfoInfo', title: '厕所信息', templet: '<div>{{d.wcInfoVo.info}}</div>'}
-            , {field: 'modbusId', title: '总线ID',sort: true}
-            , {field: 'sensorType', title: '传感器类型',sort: true}
-            , {field: 'outId', title: '输出ID',sort: true}
-            , {field: 'limitVal', title: '动作值',sort: true}
-            , {field: 'limitDownVal', title: '解除值',sort: true}
+            , {
+                field: 'status', title: '连接状态', sort: true, templet: function (d) {
+                    if (d.status == 1) {
+                        return "<span  style='background: rgba(13,185,51,0.72); padding: 6px; border-radius: 3px; color: #ffffff;'>在线</span>";
+                    } else {
+                        return "<span  style='background: rgba(0,0,0,0.37); padding: 6px; border-radius: 3px; color: #ffffff;'>离线</span>";
+                    }
+                }
+            }
+            , {field: 'modbusId', title: '总线ID', sort: true}
+            , {field: 'sensorTypeName', title: '传感器类型', sort: true}
+            , {field: 'outId', title: '输出ID', sort: true}
+            , {field: 'limitVal', title: '动作值', sort: true}
+            , {field: 'limitDownVal', title: '解除值', sort: true}
             , {fixed: 'right', title: '操作', toolbar: '#sensorConfigTableBarDemo'}
         ]]
         , page: true
-        , height: 'full-155'
+        , height: 'full-120'
         , cellMinWidth: 60
     });
-
     initSelect(form);
-    //头工具栏事件
     form.on('submit(addData)', function (obj) {
         $("#setInfoForm")[0].reset();
         form.render();
         layer.msg("请填写右边的表单并保存！");
         return false;
     });
-
-    //监听行工具事件
     table.on('tool(sensorConfigFilter)', function (obj) {
         let data = obj.data;
-        //删除
         if (obj.event === 'del') {
             layer.confirm('确认删除吗？', function (index) {
-                //向服务端发送删除指令
                 $.delete(ctx + "/wc/sensorConfig/delete/" + data.id, {}, function (data) {
                     obj.del();
                     layer.close(index);
                 })
             });
-        }
-        //编辑
-        else if (obj.event === 'edit') {
-            //回显操作表单
+        } else if (obj.event === 'edit') {
             $("#sensorConfigForm").form(data);
             form.render();
         }
     });
 
-    //厕所切换
     form.on('select(wcInfoSelector)', function (data) {
-        let wcId = data.value;
-        let query = {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-            , done: function (res, curr, count) {
-                //完成后重置where，解决下一次请求携带旧数据
-                this.where = {};
-            }
-        };
-        if (wcId) {
-            //设定异步数据接口的额外参数
-            query.where = {wcInfoWcId: wcId};
-        }
+        let wcId = $('#wcSelector').val().split('|')[0] ? $('#wcSelector').val().split('|')[0] : null;
+        let macCode = $('#wcSelector').val().split('|')[1] ? $('#wcSelector').val().split('|')[1] : null;
+        let query = {};
+        query.where = {wcId: wcId, macCode: macCode};
         tableIns.reload(query);
     })
 });
@@ -103,7 +91,8 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
 function sensorConfigFormSave() {
     let sensorConfigForm = $("#sensorConfigForm").serializeObject();
     $.post(ctx + "/wc/sensorConfig/save", sensorConfigForm, function (data) {
-        layer.msg("保存成功", {icon: 1,time: 2000}, function () {});
+        layer.msg("保存成功", {icon: 1, time: 2000}, function () {
+        });
         tableIns.reload();
     });
 }

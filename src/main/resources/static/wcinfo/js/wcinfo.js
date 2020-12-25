@@ -1,6 +1,6 @@
 let tableIns;
 let tree;
-layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree','util'], function () {
+layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree', 'util'], function () {
     let table = layui.table;
     let form = layui.form;//select、单选、复选等依赖form
     tree = layui.tree;
@@ -32,19 +32,28 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree','util'], funct
         }
         , title: '厕所列表'
         , cols: [[
-            {field: 'sortNumber', title: '序号',type:'numbers'}
-            , {field: 'wcId', title: '厕所ID',sort: true}
-            , {field: 'info', title: '厕所名称',sort: true}
-            , {field: 'recordTime', title: '记录时间',sort: true}
+            {field: 'sortNumber', title: '序号', type: 'numbers'}
+            , {field: 'wcId', title: '厕所ID', sort: true}
+            , {field: 'info', title: '厕所名称', sort: true}
+            , {
+                field: 'status', title: '连接状态', sort: true, templet: function (d) {
+                    if (d.status == 1) {
+                        return "<span  style='background: rgba(13,185,51,0.72); padding: 6px; border-radius: 3px; color: #ffffff;'>在线</span>";
+                    } else {
+                        return "<span  style='background: rgba(0,0,0,0.37); padding: 6px; border-radius: 3px; color: #ffffff;'>离线</span>";
+                    }
+                }
+            }
+            , {field: 'recordTime', title: '记录时间', sort: true}
             , {field: 'macCode', title: '物理地址'}
             , {fixed: 'right', title: '操作', toolbar: '#wcInfoTableBarDemo'}
         ]]
+        , refresh:true
         , page: true
-        , height: 'full-155'
+        , height: 'full-120'
         , cellMinWidth: 60
     });
     initSelect(form);
-    //头工具栏事件
     form.on('submit(addData)', function (obj) {
         $("#wcInfoForm")[0].reset();
         form.render();
@@ -75,20 +84,10 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree','util'], funct
     });
     //厕所切换
     form.on('select(wcInfoSelector)', function (data) {
-        let wcId = data.value;
-        let query = {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-            , done: function (res, curr, count) {
-                //完成后重置where，解决下一次请求携带旧数据
-                this.where = {};
-            }
-        };
-        if (wcId) {
-            //设定异步数据接口的额外参数
-            query.where = {wcId: wcId};
-        }
+        let wcId = $('#wcSelector').val().split('|')[0] ? $('#wcSelector').val().split('|')[0] : null;
+        let macCode = $('#wcSelector').val().split('|')[1] ? $('#wcSelector').val().split('|')[1] : null;
+        let query = {};
+        query.where = {wcId: wcId, macCode: macCode};
         tableIns.reload(query);
     })
 });
@@ -100,8 +99,9 @@ function wcInfoFormSave() {
     let wcInfoForm = $("#wcInfoForm").serializeObject();
     wcInfoForm.updateTime = commonUtil.getNowTime();
     $.post(ctx + "/wc/wcInfo/save", wcInfoForm, function (data) {
-        if(!data.flag){
-            layer.msg(data.msg, {icon: 2,time: 2000}, function () {});
+        if (!data.flag) {
+            layer.msg(data.msg, {icon: 2, time: 2000}, function () {
+            });
             return;
         }
         //保存厕所关联用户,只要userId，以及Id集合就可以了
@@ -113,8 +113,10 @@ function wcInfoFormSave() {
             wcInfoId: data.data.id,
             userIdList: userIdList.join(",")
         };
-        $.post(ctx + "/wc/wcInfoUser/saveAllByWcInfoId", postData, function (data) {});
-        layer.msg("保存成功", {icon: 1,time: 2000}, function () {});
+        $.post(ctx + "/wc/wcInfoUser/saveAllByWcInfoId", postData, function (data) {
+        });
+        layer.msg("保存成功", {icon: 1, time: 2000}, function () {
+        });
         tableIns.reload();
     });
 }
@@ -135,8 +137,8 @@ function loadUserTree() {
                 , spread: true
             };
             //回显厕所关联用户
-            for (let wcInfoUser of data.data.wcInfoUserVoList){
-                if (wcInfoUser.userId == user.userId){
+            for (let wcInfoUser of data.data.wcInfoUserVoList) {
+                if (wcInfoUser.userId == user.userId) {
                     tree.checked = true;
                 }
             }

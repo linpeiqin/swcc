@@ -1,11 +1,10 @@
 ##### 公共 配置 #######
-
 #内置Tomcat容器配置
 server:
   port: 80
   servlet:
     context-path:
-    # context-path: /swcc #应用路径，配置应用路径，可方便进行反向代理
+
 #基础配置
 spring:
   profiles:
@@ -16,6 +15,11 @@ spring:
   thymeleaf:
     prefix: classpath:/view/
     cache: false
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
   #mvc接收参数时对日期进行格式化
   mvc:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -31,14 +35,9 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-
-  #打印SQL
   jpa:
-    show-sql: true
+    show-sql: false
 
-#是否需要输入验证码
-captcha:
-  enable: false
 
 ---
 ##### dev 配置 #######
@@ -47,8 +46,8 @@ spring:
 
   #数据库配置
   datasource:
-    # url: jdbc:mysql://106.53.125.170:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8
-    url: jdbc:mysql://localhost:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    #url: jdbc:mysql://106.53.125.170:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://localhost:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -64,13 +63,12 @@ spring:
 
   #数据库配置
   datasource:
-    url: jdbc:mysql://106.53.125.170:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/cwc?serverTimezone=GMT%2B8&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
     username: root
-    password: 123456
+    password: ?{E,/s4D$AR8Zrk3
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 #是否需要输入验证码
 captcha:
   enable: true
-
 

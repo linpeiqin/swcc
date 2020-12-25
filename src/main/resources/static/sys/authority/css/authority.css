@@ -3,9 +3,6 @@ body {
     background-color: #F2F2F2;
 }
 
-.layui-form-label {
-    width: 280px !important;
-}
 
 .layui-input-block {
     display: -webkit-box !important;
@@ -14,7 +11,6 @@ body {
 .layui-table-tool-temp {
     padding-right: 0;
 }
-
 #queryByAuthorityName {
     width: 100px;
     display: unset;

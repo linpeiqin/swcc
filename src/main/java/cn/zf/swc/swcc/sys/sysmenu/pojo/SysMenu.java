@@ -27,4 +27,6 @@ public class SysMenu implements Serializable {
 
     private String orderNumber;//排序号
 
+    private String icon;//图标
+
 }

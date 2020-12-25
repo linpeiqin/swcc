@@ -1225,7 +1225,7 @@ layui.define(function (exports) {
                 if (function (e) {
                     var t = e.url, n = e.data, r = e.success, a = e.fail, i = e.notSure, o = e.isUnload, l = n;
                     if (window.XDomainRequest) le(t, l, r, a); else {
-                        if (o) return window.navigator && window.navigator.sendBeacon ? (i(), void(window.navigator.sendBeacon(t, JSON.stringify(l)) ? r() : a(t, n, j))) : void le(t, l, r, a);
+                        if (o) return window.navigator && window.navigator.sendBeacon ? (i(), void (window.navigator.sendBeacon(t, JSON.stringify(l)) ? r() : a(t, n, j))) : void le(t, l, r, a);
                         var s = new XMLHttpRequest;
                         s.open("POST", t + "?rdn=" + Math.random(), !0), s.onload = function () {
                             r(t, l, s.responseText)
@@ -2175,7 +2175,7 @@ layui.define(function (exports) {
         } : function (e) {
             return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e
         };
-        window, void 0 === (a = "function" == typeof(r = function () {
+        window, void 0 === (a = "function" == typeof (r = function () {
             function e(e) {
                 var t = parseFloat(e), n = -1 == e.indexOf("%") && !isNaN(t);
                 return n && t
@@ -2424,7 +2424,7 @@ layui.define(function (exports) {
         "use strict";
         var r, a;
         "function" == typeof Symbol && Symbol.iterator;
-        "undefined" != typeof window && window, void 0 === (a = "function" == typeof(r = function () {
+        "undefined" != typeof window && window, void 0 === (a = "function" == typeof (r = function () {
             function e() {
             }
 
@@ -2474,7 +2474,7 @@ layui.define(function (exports) {
         "use strict";
         var r, a, i;
         "function" == typeof Symbol && Symbol.iterator;
-        a = [], void 0 === (i = "function" == typeof(r = function () {
+        a = [], void 0 === (i = "function" == typeof (r = function () {
             return function e(t, n, r) {
                 var a, i, o = window, l = "application/octet-stream", s = r || l, u = t, c = !n && !r && u,
                     p = document.createElement("a"), d = function (e) {
@@ -5170,7 +5170,7 @@ layui.define(function (exports) {
                         })
                     }
                 }])
-            }, "object" == o(t) && "object" == o(e) ? e.exports = i() : (r = [], void 0 === (a = "function" == typeof(n = i) ? n.apply(t, r) : n) || (e.exports = a))
+            }, "object" == o(t) && "object" == o(e) ? e.exports = i() : (r = [], void 0 === (a = "function" == typeof (n = i) ? n.apply(t, r) : n) || (e.exports = a))
         }).call(this, n(90)(e))
     }, function (e, t, n) {
         "use strict";

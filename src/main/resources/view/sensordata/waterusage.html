@@ -6,13 +6,12 @@
     <!-- 引入公用部分 -->
     <script th:replace="common/head::static"></script>
     <!-- 样式 -->
-    <link th:href="@{/sensordata/css/waterusage.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/sensordata/css/waterusage.min.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="layui-row layui-col-space15">
     <div class="layui-col-md12">
         <div class="layui-card">
-            <div class="layui-card-header">用水信息</div>
             <div class="layui-card-body">
                 <form class="layui-form" >
                     <div class="layui-inline layui-form-item">
@@ -26,35 +25,33 @@
                     <div class="layui-inline layui-form-item">
                         <label class="layui-form-label">开始时间:</label>
                         <div class="layui-input-block">
-                            <input type="text" id="startDatePicker" class="layui-input" placeholder="请选择日期">
+                            <input type="text" id="startDatePicker" class="layui-input" placeholder="请选择日期" autocomplete="off">
                         </div>
                     </div>
                     <div class="layui-inline layui-form-item">
                         <label class="layui-form-label">结束时间:</label>
                         <div class="layui-input-block">
-                            <input type="text" id="endDatePicker" class="layui-input" placeholder="请选择日期">
+                            <input type="text" id="endDatePicker" class="layui-input" placeholder="请选择日期" autocomplete="off">
                         </div>
                     </div>
                     <div class="layui-inline tool-btn layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" id="rqueryButton"><i class="layui-icon layui-icon-add-circle"></i>查询</button>
+                            <button class="layui-btn" id="rqueryButton"><i class="layui-icon layui-icon-search"></i>查询</button>
                         </div>
                     </div>
                 </form>
-                <div class="layui-tab">
+                <div class="layui-tab layui-tab-brief"  lay-filter="waterUsageTabFilter">
                     <ul class="layui-tab-title">
-                        <li class="layui-this">表格</li>
-                        <li>图表</li>
+                        <li class="layui-this" lay-id="tableLi">表格</li>
+                        <li lay-id="chartLi">图表</li>
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
-                            <!-- 表格 -->
-                            <table class="layui-hide" id="waterUsageTable" lay-filter="test"></table>
+                            <table class="layui-hide" id="waterUsageTable" lay-filter="waterUsageFilter"></table>
                         </div>
                         <div class="layui-tab-item">
-                            <!--图表-->
-                            <div class="chart-panel panel panel-default">
-                                <div class="panel-body" id="chart" style="width: 1000px;height:450px;">
+                            <div class="panel panel-default" id="chart-panel">
+                                <div class="panel-body mychart" id="chart">
                                 </div>
                             </div>
                         </div>
@@ -66,6 +63,5 @@
 </div>
 </body>
 <!-- js -->
-<script th:src="@{/common/echarts/echarts.js}"></script>
-<script th:src="@{/sensordata/js/waterusage.js}"></script>
+<script th:src="@{/sensordata/js/waterusage.min.js}"></script>
 </html>

@@ -1,5 +1,7 @@
 package cn.zf.swc.swcc.sensordata.controller;
 
+import cn.zf.swc.swcc.annotation.Decrypt;
+import cn.zf.swc.swcc.annotation.Encrypt;
 import cn.zf.swc.swcc.common.controller.CommonController;
 import cn.zf.swc.swcc.common.pojo.PageInfo;
 import cn.zf.swc.swcc.common.pojo.Result;
@@ -8,6 +10,7 @@ import cn.zf.swc.swcc.sensordata.service.SensorDataService;
 import cn.zf.swc.swcc.sensordata.vo.SensorDataVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,8 +26,4 @@ public class SensorDataController extends CommonController<SensorDataVo, SensorD
         return new ModelAndView("sensordata/sensordata");
     }
 
-    @Override
-    public Result<PageInfo<SensorDataVo>> page(SensorDataVo entityVo) {
-        return super.page(entityVo);
-    }
 }

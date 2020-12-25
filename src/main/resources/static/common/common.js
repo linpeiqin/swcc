@@ -2,32 +2,36 @@
  * 加解密操作简单封装一下
  */
 aesUtil = {
-
     //获取key，
-    genKey : function (length = 16) {
+    genKey: function (length = 16) {
         let random = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         let str = "";
         for (let i = 0; i < length; i++) {
-            str  = str + random.charAt(Math.random() * random.length)
+            str = str + random.charAt(Math.random() * random.length)
         }
         return str;
     },
-
     //加密
-    encrypt : function (plaintext,key) {
+    encrypt: function (plaintext, key) {
         if (plaintext instanceof Object) {
             //JSON.stringify
             plaintext = JSON.stringify(plaintext)
         }
-        let encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(plaintext), CryptoJS.enc.Utf8.parse(key), {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+        let encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(plaintext), CryptoJS.enc.Utf8.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
         return encrypted.toString();
     },
 
     //解密
-    decrypt : function (ciphertext,key) {
-        let decrypt = CryptoJS.AES.decrypt(ciphertext, CryptoJS.enc.Utf8.parse(key), {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+    decrypt: function (ciphertext, key) {
+        let decrypt = CryptoJS.AES.decrypt(ciphertext, CryptoJS.enc.Utf8.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
         let decString = CryptoJS.enc.Utf8.stringify(decrypt).toString();
-        if(decString.charAt(0) === "{" || decString.charAt(0) === "[" ){
+        if (decString.charAt(0) === "{" || decString.charAt(0) === "[") {
             //JSON.parse
             decString = JSON.parse(decString);
         }
@@ -69,14 +73,12 @@ rsaUtil = {
     decrypt: function (ciphertext, privateKey) {
         privateKey && rsaUtil.thisKeyPair.setPrivateKey(privateKey);
         let decString = rsaUtil.thisKeyPair.decrypt(ciphertext);
-        if(decString.charAt(0) === "{" || decString.charAt(0) === "[" ){
-            //JSON.parse
+        if (decString.charAt(0) === "{" || decString.charAt(0) === "[") {
             decString = JSON.parse(decString);
         }
         return decString;
     }
 };
-
 
 
 /**
@@ -86,11 +88,11 @@ jQueryExtend = {
     /**
      * 是否已经进行jq的ajax加密重写
      */
-    ajaxExtendFlag : false,
+    ajaxExtendFlag: false,
     /**
      * 扩展jquery对象方法
      */
-    fnExtend : function(){
+    fnExtend: function () {
         /**
          * 拓展表单对象：用于将对象序列化为JSON对象
          */
@@ -139,7 +141,6 @@ jQueryExtend = {
                 }
             }
         };
-
         /**
          * 拓展jQuery对象：快速AJAX Delete删除
          */
@@ -163,9 +164,10 @@ jQueryExtend = {
     /**
      * 重写jq的ajax加密，并保留原始ajax，命名为_ajax
      */
-    ajaxExtend : function(){
+    ajaxExtend: function () {
         //判断api加密开关
-        if(sessionStorage.getItem('sysApiEncrypt') === "Y" && !jQueryExtend.ajaxExtendFlag){
+
+        if (sessionStorage.getItem('sysApiEncrypt') === "Y" && !jQueryExtend.ajaxExtendFlag) {
             jQueryExtend.ajaxExtendFlag = true;
             let _ajax = $.ajax;//首先备份下jquery的ajax方法
             $.ajax = function (opt) {
@@ -182,7 +184,9 @@ jQueryExtend = {
                 if (opt.success) {
                     fn.success = opt.success;
                 }
-
+                if (opt.dataType == 'html'){
+                    return _ajax(opt);
+                }
                 //加密再传输
                 if (opt.type.toLowerCase() === "post") {
                     let data = opt.data;
@@ -254,7 +258,6 @@ commonUtil = {
         data += second;
         return data;
     },
-
     /**
      * 将我们响应的系统菜单数据转换成符合layui的tree结构
      * @param arrar  旧数据
@@ -269,6 +272,7 @@ commonUtil = {
             obj1.title = obj.menuName;
             obj1.href = obj.menuPath;
             obj1.orderNumber = obj.orderNumber;
+            obj1.icon = obj.icon;
 
             if (obj.children.length > 0) {
                 obj1.children = this.updateKeyForLayuiTree(obj.children);
@@ -283,16 +287,16 @@ commonUtil = {
      * @param arrTree
      * @param userTreeString
      */
-    checkedForLayuiTree:function (arrTree, userTreeString) {
-        for(let tree of arrTree){
+    checkedForLayuiTree: function (arrTree, userTreeString) {
+        for (let tree of arrTree) {
             //默认全部展开
-            tree.spread=true;
+            tree.spread = true;
             //递归子节点
-            if(tree.children && tree.children.length > 0){
-                tree.children = this.checkedForLayuiTree(tree.children,userTreeString);
-            }else{
+            if (tree.children && tree.children.length > 0) {
+                tree.children = this.checkedForLayuiTree(tree.children, userTreeString);
+            } else {
                 //是否包含（勾选子节点默认会勾上父节点，如果勾选父节点，默认会全部勾上所有子节点）
-                if(userTreeString.search(tree.id) !== -1){
+                if (userTreeString.search(tree.id) !== -1) {
                     tree.checked = true;
                 }
             }
@@ -300,9 +304,6 @@ commonUtil = {
         return arrTree;
     }
 };
-
-
-/* 以下代码所有页面统一执行  */
 
 //扩展jquery对象方法
 jQueryExtend.fnExtend();

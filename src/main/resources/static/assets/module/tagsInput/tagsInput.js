@@ -315,7 +315,7 @@
                         });
                     });
 
-                }else if (settings.data != undefined) {
+                } else if (settings.data != undefined) {
                     $(data.fake_input).on('input', function () {
                         var name = $(this).val();
                         if (!name) {

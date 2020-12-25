@@ -76,4 +76,13 @@ public class RabbitConfig {
     public Queue warnDataString() {
         return new Queue("warnDataQueue");
     }
+
+    /**
+     * 定义heartBeatConnectionQueue队列
+     * @return
+     */
+    @Bean
+    public Queue heartBeatConnectionString() {
+        return new Queue("heartBeatConnectionQueue");
+    }
 }

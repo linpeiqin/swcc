@@ -130,7 +130,7 @@ public class CodeDOM {
         for (TableInfo tableInfo : tableInfos) {
             //主键
             if ("PRI".equals(tableInfo.getColumnKey())) {
-                t = StringUtil.typeMapping(tableInfo.getDataType());
+                t = StringUtil.typeMapping(tableInfo.getDataType(),true);
             }
         }
         stringBuffer.append(
@@ -159,7 +159,7 @@ public class CodeDOM {
         for (TableInfo tableInfo : tableInfos) {
             //主键
             if ("PRI".equals(tableInfo.getColumnKey())) {
-                t = StringUtil.typeMapping(tableInfo.getDataType());
+                t = StringUtil.typeMapping(tableInfo.getDataType(),true);
             }
         }
         stringBuffer.append(
@@ -218,7 +218,7 @@ public class CodeDOM {
         for (TableInfo tableInfo : tableInfos) {
             //主键
             if ("PRI".equals(tableInfo.getColumnKey())) {
-                t = StringUtil.typeMapping(tableInfo.getDataType());
+                t = StringUtil.typeMapping(tableInfo.getDataType(),true);
             }
         }
         stringBuffer.append(
@@ -232,7 +232,7 @@ public class CodeDOM {
                         "import org.springframework.web.bind.annotation.*;\n" +
                         "\n" +
                         "@RestController\n" +
-                        "@RequestMapping(\"/wc/" + StringUtil.camelCaseName(objectName) + "/\")\n" +
+                        "@RequestMapping(\"/sys/" + StringUtil.camelCaseName(objectName) + "/\")\n" +
                         "public class " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Controller extends CommonController<" + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + "Vo, " + StringUtil.captureName(StringUtil.camelCaseName(objectName)) + ", " + t + "> {"
         );
         stringBuffer.append("\n");
@@ -340,6 +340,18 @@ public class CodeDOM {
      * 字符串处理工具类
      */
     private static class StringUtil {
+        /**
+         * 数据库类型->JAVA类型
+         *
+         * @param dbType 数据库类型
+         * @return JAVA类型
+         */
+        private static String typeMapping(String dbType,boolean isLong) {
+            if ("int|integer".contains(dbType) && isLong) {
+                return "Long";
+            }
+            return StringUtil.typeMapping(dbType);
+        }
         /**
          * 数据库类型->JAVA类型
          *
@@ -548,8 +560,8 @@ public class CodeDOM {
         for (String table : tables) {
             String msg = new CodeDOM(table,null,null).create();
            System.out.println(msg);
-        }*/
-       String msg = new CodeDOM("CWC_WC_INFO_USER","wcinfo","wcInfoUser").create();
-       System.out.println(msg);
+        } */
+       String msg = new CodeDOM("sys_dic_type","sys\\dic","dicType").create();
+        System.out.println(msg);
     }
 }

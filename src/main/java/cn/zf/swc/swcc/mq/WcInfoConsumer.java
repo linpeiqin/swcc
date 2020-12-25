@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import wc.dto.WcInfoDto;
 
+import java.util.Date;
+
 
 @Component
 @RabbitListener(queues = "wcInfoQueue")
@@ -20,14 +22,24 @@ public class WcInfoConsumer {
      */
     @RabbitHandler
     public void recieved(WcInfoDto wcInfoDto) {
-        WcInfo wcInfo  = new WcInfo();
-        wcInfo.setInfo(wcInfoDto.getInfo());
-        wcInfo.setLocation(wcInfoDto.getLocation());
-        wcInfo.setWcId(wcInfoDto.getId());
-        wcInfo.setRecordTime(wcInfoDto.getRecordTime());
-        wcInfo.setPassword(wcInfoDto.getPassword());
-        wcInfo.setMacCode(wcInfoDto.getMacCode());
-        this.wcInfoRepository.save(wcInfo);
+            WcInfo wcInfo = this.wcInfoRepository.findByWcIdAndMacCode(Long.valueOf(wcInfoDto.getId()), wcInfoDto.getMacCode());
+            if (wcInfo == null) {
+                wcInfo = new WcInfo();
+                wcInfo.setCreateTime(new Date());
+            } else {
+                if (wcInfoDto.getOpt().equals("del")){
+                    this.wcInfoRepository.delete(wcInfo);
+                    return ;
+                }
+            }
+            wcInfo.setUpdateTime(new Date());
+            wcInfo.setInfo(wcInfoDto.getInfo());
+            wcInfo.setLocation(wcInfoDto.getLocation());
+            wcInfo.setWcId(Long.valueOf(wcInfoDto.getId()));
+            wcInfo.setRecordTime(wcInfoDto.getRecordTime());
+            wcInfo.setPassword(wcInfoDto.getPassword());
+            wcInfo.setMacCode(wcInfoDto.getMacCode());
+            this.wcInfoRepository.save(wcInfo);
     }
 
 }

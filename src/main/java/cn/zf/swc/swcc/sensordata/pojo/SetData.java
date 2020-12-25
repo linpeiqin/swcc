@@ -26,4 +26,8 @@ public class SetData {
 
     private String macCode;//物理地址
 
+    private Date createTime;//创建时间
+
+    private Date updateTime;//修改时间
+
 }

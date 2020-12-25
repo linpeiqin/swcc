@@ -1,13 +1,12 @@
 let tableIns;
 let tree;
-layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], function () {
+layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree', 'util'], function () {
     let table = layui.table;
     let form = layui.form;//select、单选、复选等依赖form
     let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
     let laydate = layui.laydate;
     tree = layui.tree;
     let height = document.documentElement.clientHeight - 160;
-
     tableIns = table.render({
         elem: '#authorityTable'
         , url: ctx + '/sys/sysAuthority/page'
@@ -45,7 +44,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
         ]]
         , defaultToolbar: ['', '', '']
         , page: true
-        , height: height
+        , height: 'full-155'
         , cellMinWidth: 80
     });
 
@@ -107,7 +106,8 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
 function authorityFormSave() {
     let authorityForm = $("#authorityForm").serializeObject();
     $.post(ctx + "/sys/sysAuthority/save", authorityForm, function (data) {
-        layer.msg("保存成功", {icon: 1,time: 2000}, function () {});
+        layer.msg("保存成功", {icon: 1, time: 2000}, function () {
+        });
         tableIns.reload();
     });
 }

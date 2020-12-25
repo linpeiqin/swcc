@@ -1,6 +1,5 @@
 package cn.zf.swc.swcc.setinfo.pojo;
 
-import cn.zf.swc.swcc.wcinfo.pojo.WcInfo;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,14 +21,16 @@ public class SetInfo {
 
     private Long setId;//客户端厕位ID
 
-    private Date createTime;//创建时间
-
     private Integer wcType;//厕所类型
 
     private String macCode;//物理地址
 
-    @ManyToOne
-    @JoinColumn(name="WC_ID")
-    private WcInfo wcInfo;//厕所信息
+    private Long wcId;//厕所ID
+
+    private Long wcInfoId;//厕所信息ID
+
+    private Date createTime;//创建时间
+
+    private Date updateTime;//修改时间
 
 }

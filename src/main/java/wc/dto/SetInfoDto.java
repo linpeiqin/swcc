@@ -13,7 +13,15 @@ public class SetInfoDto implements Serializable {
     private int wcId;
     private String messageId;
     private String macCode;
+    private String opt;
 
+    public String getOpt() {
+        return opt;
+    }
+
+    public void setOpt(String opt) {
+        this.opt = opt;
+    }
     public int getId() {
         return id;
     }

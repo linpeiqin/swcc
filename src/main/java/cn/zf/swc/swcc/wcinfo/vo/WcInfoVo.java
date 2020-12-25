@@ -17,10 +17,19 @@ public class WcInfoVo extends PageCondition implements Serializable {
 
     private Long location;//厕所位置
 
-    private Integer wcId;//客户端厕所ID
+    private Long wcId;//客户端厕所ID
 
     private String password;//密码
 
     private String macCode;//物理地址
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date createTime;//创建时间
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date updateTime;//修改时间
+
+    private Integer status;//连接状态
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date statusTime;//状态更新时间
 
 }

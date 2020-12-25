@@ -32,21 +32,20 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'util'], function () 
         }
         , title: '厕位列表'
         , cols: [[
-            {field: 'sortNumber', title: '序号',type:'numbers'}
+            {field: 'sortNumber', title: '序号', type: 'numbers'}
             , {field: 'wcInfoInfo', title: '厕所信息', templet: '<div>{{d.wcInfoVo.info}}</div>'}
             , {field: 'setId', title: '厕位ID', sort: true}
             , {field: 'zigbeeMId', title: '总线ID', sort: true}
             , {field: 'zigbeeBId', title: '厕位标识ID', sort: true}
             , {field: 'createTime', title: '创建时间', sort: true}
-            , {field: 'wcType', title: '厕所类型', sort: true}
+            , {field: 'wcTypeName', title: '厕所类型', sort: true}
             , {fixed: 'right', title: '操作', toolbar: '#setInfoTableBarDemo', fixed: 'right'}
         ]]
         , page: true
-        , height: 'full-155'
+        , height: 'full-120'
         , cellMinWidth: 60
     });
     initSelect(form);
-    //头工具栏事件
     form.on('submit(addData)', function (obj) {
         $("#setInfoForm")[0].reset();
         form.render();
@@ -76,24 +75,13 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'util'], function () 
     });
     //厕所切换
     form.on('select(wcInfoSelector)', function (data) {
-        let wcId = data.value;
-        let query = {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-            , done: function (res, curr, count) {
-                //完成后重置where，解决下一次请求携带旧数据
-                this.where = {};
-            }
-        };
-        if (wcId) {
-            //设定异步数据接口的额外参数
-            query.where = {wcInfoWcId: wcId};
-        }
+        let wcId = $('#wcSelector').val().split('|')[0] ? $('#wcSelector').val().split('|')[0] : null;
+        let macCode = $('#wcSelector').val().split('|')[1] ? $('#wcSelector').val().split('|')[1] : null;
+        let query = {};
+        query.where = {wcId: wcId, macCode: macCode};
         tableIns.reload(query);
     })
 });
-
 /**
  * 提交保存
  */

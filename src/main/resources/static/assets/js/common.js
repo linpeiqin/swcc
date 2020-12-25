@@ -1,5 +1,5 @@
 layui.config({  // common.js是配置layui扩展模块的目录，每个页面都需要引入
-   // version: '318',   // 更新组件缓存，设为true不缓存，也可以设一个固定值
+                // version: '318',   // 更新组件缓存，设为true不缓存，也可以设一个固定值
     base: getProjectUrl() + 'assets/module/'
 }).extend({
     steps: 'steps/steps',
@@ -22,8 +22,6 @@ layui.config({  // common.js是配置layui扩展模块的目录，每个页面�
     var base = layui.base;
     var common = layui.common;
     var func = layui.func;
-
-
 });
 
 /** 获取当前项目的根路径，通过获取layui.js全路径截取assets之前的地址 */

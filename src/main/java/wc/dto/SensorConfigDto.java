@@ -15,6 +15,15 @@ public class SensorConfigDto implements Serializable {
     private String messageId;
     private String macCode;
     private int wcId;
+    private String opt;
+
+    public String getOpt() {
+        return opt;
+    }
+
+    public void setOpt(String opt) {
+        this.opt = opt;
+    }
 
     public int getWcId() {
         return wcId;

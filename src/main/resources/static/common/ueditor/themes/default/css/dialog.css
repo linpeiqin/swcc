@@ -5,8 +5,8 @@
 
 }
 
-.edui-dialog div{
-    width:auto;
+.edui-dialog div {
+    width: auto;
 }
 
 .edui-default .edui-dialog-wrap {
@@ -21,7 +21,7 @@
 
 .edui-default .edui-dialog-body {
     position: relative;
-    padding:2px 0 0 2px;
+    padding: 2px 0 0 2px;
     _zoom: 1;
 }
 
@@ -63,6 +63,7 @@
     position: relative;
     cursor: move;
 }
+
 .edui-default .edui-dialog-caption {
     font-weight: bold;
     font-size: 12px;
@@ -127,7 +128,7 @@
 
 .edui-default .edui-dialog-modalmask {
     opacity: 0.3;
-    filter: alpha(opacity = 30);
+    filter: alpha(opacity=30);
     background-color: #ccc;
     position: absolute;
     /*z-index: 1999;*/
@@ -152,7 +153,7 @@
     width: 100%;
     height: 100%;
     opacity: 0;
-    filter: alpha(opacity = 0);
+    filter: alpha(opacity=0);
 }
 
 /*link-dialog*/
@@ -161,6 +162,7 @@
     height: 200px;
     overflow: hidden;
 }
+
 /*background-dialog*/
 .edui-default .edui-for-background .edui-dialog-content {
     width: 440px;
@@ -196,6 +198,7 @@
     height: 400px;
     overflow: hidden;
 }
+
 /*webapp-dialog*/
 .edui-default .edui-for-webapp .edui-dialog-content {
     width: 560px;
@@ -266,7 +269,7 @@
 /*edittable-dialog*/
 .edui-default .edui-for-edittable .edui-dialog-content {
     width: 540px;
-    _width:590px;
+    _width: 590px;
     height: 335px;
 }
 
@@ -281,6 +284,7 @@
     width: 240px;
     height: 50px;
 }
+
 /*snapscreen-dialog*/
 .edui-default .edui-for-snapscreen .edui-dialog-content {
     width: 400px;

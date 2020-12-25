@@ -24,5 +24,7 @@ public class SysMenuVo extends PageCondition implements Serializable {
 
     private String orderNumber;//排序号
 
+    private String icon;//图标
+
     private List<SysMenuVo> children = new ArrayList<>();//如果是父类，这里存孩子节点
 }

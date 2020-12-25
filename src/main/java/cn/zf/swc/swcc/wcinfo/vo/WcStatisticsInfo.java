@@ -12,6 +12,7 @@ public class WcStatisticsInfo implements Serializable {
         this.number = number;
     }
 
+
     private String date;
 
     private Integer number;

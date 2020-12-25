@@ -2,27 +2,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="static">
-    <!-- thymeleaf内联js-->
     <head>
         <script th:inline="javascript">
-            //项目根路径
-            // ctx = /*[[@{/}]]*/'';
             ctx = [[${#request.getContextPath()}]];//应用路径
         </script>
     </head>
 
     <!-- 引入公用库 -->
     <head>
-        <!-- Jquery -->
         <script th:src="@{/common/jquery/jquery.js}"></script>
-
-        <!-- Layui -->
         <link th:href="@{/common/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
-        <link th:href="@{/assets/css/theme-all.css}" rel="stylesheet" type="text/css"/>
+        <link th:href="@{/assets/css/theme-all.min.css}" rel="stylesheet" type="text/css"/>
         <script th:src="@{/common/layui/layui.js}"></script>
-
-
-        <!--CryptoJS jsencrypt -->
         <script th:src="@{/common/encrypt/cryptojs.js}"></script>
         <script th:src="@{/common/encrypt/jsencrypt.js}"></script>
     </head>
@@ -31,6 +22,6 @@
     <head>
         <link th:href="@{/common/common.css}" rel="stylesheet" type="text/css"/>
         <script th:src="@{/common/common.js}"></script>
-        <script th:src="@{/common/wccommon.js}"></script>
+        <script th:src="@{/common/wccommon.min.js}"></script>
     </head>
 </html>

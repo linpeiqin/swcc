@@ -2,18 +2,17 @@ package cn.zf.swc.swcc.wcinfo.controller;
 
 import cn.zf.swc.swcc.annotation.Decrypt;
 import cn.zf.swc.swcc.annotation.Encrypt;
-import cn.zf.swc.swcc.common.controller.*;
+import cn.zf.swc.swcc.common.controller.CommonController;
 import cn.zf.swc.swcc.common.pojo.Result;
-import cn.zf.swc.swcc.sys.sysmenu.vo.SysMenuVo;
 import cn.zf.swc.swcc.sys.sysuser.service.SysUserService;
 import cn.zf.swc.swcc.sys.sysuser.vo.SysUserVo;
-import cn.zf.swc.swcc.sys.sysuserauthority.vo.SysUserAuthorityVo;
-import cn.zf.swc.swcc.sys.sysusermenu.vo.SysUserMenuVo;
 import cn.zf.swc.swcc.wcinfo.pojo.WcInfoUser;
-import cn.zf.swc.swcc.wcinfo.vo.WcInfoUserVo;
 import cn.zf.swc.swcc.wcinfo.service.WcInfoUserService;
+import cn.zf.swc.swcc.wcinfo.vo.WcInfoUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;

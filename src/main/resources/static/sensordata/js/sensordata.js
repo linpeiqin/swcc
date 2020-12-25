@@ -1,9 +1,8 @@
 let tableIns;
 let tree;
-layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], function () {
+layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree', 'util'], function () {
     let table = layui.table;
     let form = layui.form;//select、单选、复选等依赖form
-    let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
     let laydate = layui.laydate;
     tree = layui.tree;
     tableIns = table.render({
@@ -34,51 +33,41 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
         }
         , title: '传感器数据查询'
         , cols: [[
-            {field: 'sortNumber', title: '序号',type:'numbers'}
-            , {field: 'time', title: '记录时间',sort: true}
-            , {field: 'sensorId', title: '传感器ID',sort: true}
-            , {field: 'sensorType', title: '传感器类型',sort: true}
-            , {field: 'value1', title: '值1'}
-            , {field: 'value2', title: '值2'}
-            , {field: 'value3', title: '值3'}
+            {field: 'sortNumber', title: '序号', type: 'numbers'}
+            , {field: 'time', title: '记录时间', sort: true}
+            , {field: 'sensorId', title: '传感器ID', sort: true}
+            , {field: 'sensorTypeName', title: '传感器类型', sort: true}
+            , {field: 'value1Text', title: '值1'}
+            , {field: 'value2Text', title: '值2'}
+            , {field: 'value3Text', title: '值3'}
+            , {field: 'macCode', title: '物理地址'}
         ]]
         , page: true
-        , height: 'full-160'
+        , height: 'full-120'
         , cellMinWidth: 60
     });
     initSelect(form);
-
     // 刷新按钮
-    $("#rqueryButton").click(function() {
-        let wcId = $('#wcSelector').val();
-        let startDate = $('#startDatePicker').val();
-        let endDate = $('#endDatePicker').val();
-        let query = {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-            , done: function (res, curr, count) {
-                //完成后重置where，解决下一次请求携带旧数据
-                this.where = {};
-            }
-        };
-        if (wcId) {
-            //设定异步数据接口的额外参数
-            query.where = {wcInfoWcId: wcId};
-        }
+    $("#rqueryButton").click(function () {
+        let wcId = $('#wcSelector').val().split('|')[0] ? $('#wcSelector').val().split('|')[0] : null;
+        let macCode = $('#wcSelector').val().split('|')[1] ? $('#wcSelector').val().split('|')[1] : null;
+        let startTime = $('#startTimePicker').val();
+        let endTime = $('#endTimePicker').val();
+        let query = {};
+        query.where = {macCode: macCode, wcId: wcId, startTime: startTime, endTime: endTime};
         tableIns.reload(query);
         return false;
     })
     //日期选择器
     laydate.render({
-        elem: '#startDatePicker',
-        theme:'#8470FF',
+        elem: '#startTimePicker',
+        theme: '#8470FF',
         type: 'datetime', //选择时间
     });
     //日期选择器
     laydate.render({
-        elem: '#endDatePicker',
-        theme:'#8470FF',
+        elem: '#endTimePicker',
+        theme: '#8470FF',
         type: 'datetime', //选择时间
     });
 });

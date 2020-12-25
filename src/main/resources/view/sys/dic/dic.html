@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--解决idea thymeleaf 表达式模板报红波浪线-->
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 引入公用部分 -->
+    <script th:replace="common/head::static"></script>
+    <!-- 样式 -->
+    <link th:href="@{/sys/dic/css/dic.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md8">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form" >
+                    <div class="layui-form-item">
+                        <div class="layui-inline ">
+                            <div class="layui-input-inline">
+                                <button class="layui-btn" lay-submit lay-filter="addData"><i class="layui-icon layui-icon-add-circle"></i>新增</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- 表格主体 -->
+                <table class="layui-hide" id="dicTable" lay-filter="dicFilter"></table>
+                <!-- 模板 -->
+                <script type="text/html" id="dicTableBarDemo">
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                </script>
+            </div>
+        </div>
+    </div>
+    <!-- 操作表单 -->
+    <div class="layui-col-md4">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form id="dicForm" class="layui-form layui-form-pane">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字典名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" autocomplete="off" placeholder="字典名称"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">内部标签</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="tag" autocomplete="off" placeholder="内部标签"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字典类型</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="typeId" autocomplete="off" placeholder="字典类型"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="status" autocomplete="off" placeholder="状态：1在用 2停用"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">字典值</label>
+                        <div class="layui-input-block">
+                            <textarea lay-verify="required" type="text" name="value" autocomplete="off" placeholder="字典值,例如(性别：1:男 2:女 3:未知)"  class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <textarea type="text" name="note" autocomplete="off" placeholder="备注" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">显示顺序</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sort" autocomplete="off" placeholder="请输入显示顺序"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <!-- 隐藏域 -->
+                    <input type="text" name="id" hidden="hidden"/>
+                </form>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a class="layui-btn" onclick="dicFormSave()">保存</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- js -->
+<script th:src="@{/sys/dic/js/dic.js}"></script>
+</html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<!--解决idea thymeleaf 表达式模板报红波浪线-->
-<!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title th:text="${sys.sysName}"></title>
     <link rel="shortcut icon" th:href='${sys.sysLogo}' th:mce_href='${sys.sysLogo}' type="image/x-icon">
     <!-- 引入公用部分 -->
@@ -28,40 +28,33 @@
                 <a ew-event="refresh" title="刷新"><i class="layui-icon layui-icon-refresh-3"></i></a>
             </li>
             <!-- 动态读取加载用户快捷菜单 -->
-            <li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}"
-                th:unless="${#lists.size(menu.children)} eq 0">
-                <a th:text="${menu.shortcutMenuName}" href="javascript:;">XXX</a>
+            <li class="layui-nav-item" lay-unselect th:each="menu,iterStat : ${shortcutMenuList}">
+                <a><cite th:text="${menu.shortcutMenuName}"></cite></a>
                 <dl class="layui-nav-child">
-                    <dd th:each="childMenu,iterStat : ${menu.children}"><a class="linking-menu"
-                                                                           th:data-url="${childMenu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + childMenu.shortcutMenuPath : childMenu.shortcutMenuPath}"
-                                                                           th:data-id="${childMenu.shortcutMenuId}"
-                                                                           th:text="${childMenu.shortcutMenuName}"
-                                                                           href="javascript:;">XXX</a></dd>
+                    <dd lay-unselect th:each="childMenu,iterStat : ${menu.children}">
+                        <a th:ew-href="${childMenu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + childMenu.shortcutMenuPath : childMenu.shortcutMenuPath}"  th:text="${childMenu.shortcutMenuName}"></a>
+                    </dd>
                 </dl>
-            </li>
-            <li class="layui-nav-item" th:each="menu,iterStat : ${shortcutMenuList}"
-                th:if="${#lists.size(menu.children)} eq 0">
-                <a class="linking-menu"
-                   th:data-url="${menu.shortcutMenuPath.indexOf('http') == -1 ? #request.getContextPath() + menu.shortcutMenuPath : menu.shortcutMenuPath}"
-                   th:data-id="${menu.shortcutMenuId}" th:text="${menu.shortcutMenuName}" href="javascript:;">XXX</a>
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                <a ew-event="lockScreen" title="锁屏"><i class="layui-icon layui-icon-password"></i></a>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a ew-event="note" title="便签"><i class="layui-icon layui-icon-note"></i></a>
+            </li>
             <li class="layui-nav-item layui-hide-xs" lay-unselect>
                 <a ew-event="fullScreen" title="全屏"><i class="layui-icon layui-icon-screen-full"></i></a>
             </li>
             <li class="layui-nav-item" lay-unselect>
                 <a ew-event="theme" title="主题"><i class="layui-icon layui-icon-more-vertical"></i></a>
             </li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <span th:text="${loginUser.userName}"></span>
-                </a>
+            <li class="layui-nav-item" lay-unselect>
+                <a><cite th:text="${loginUser.userName}"></cite></a>
                 <dl class="layui-nav-child">
-                    <dd><a class="linking-menu" th:data-url="${#request.getContextPath()} + '/user/userinfo'"
-                           data-id="userinfo" href="javascript:;">基本资料</a></dd>
-                    <dd><a class="linking-menu" th:data-url="${#request.getContextPath()} + '/user/shortcMenu'"
-                           data-id="shortcMenu" href="javascript:;">个性菜单</a></dd>
+                    <dd lay-unselect><a ew-href="/user/userinfo">基本资料</a></dd>
+                    <dd lay-unselect><a ew-href="/user/shortcMenu">个性菜单</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a th:href="@{/logout}">退出</a></li>
@@ -73,9 +66,11 @@
         <div class="layui-side-scroll" >
             <ul th:each="item,itemStat:${menuList}" th:class="'layui-nav layui-nav-tree ' + (${itemStat.index > 0} ? 'layui-hide' : '')" th:nav-id="'xt'+${itemStat.index+1}" lay-filter="admin-side-nav" lay-shrink="_all" style="margin: 15px 0;"  >
                 <li th:each="subItem,subStat:${item.children}" class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-username"></i>&emsp;<cite th:text="${subItem.menuName}"></cite></a>
+                    <a><i th:class="'layui-icon ' +${subItem.icon}"></i>&emsp;<cite th:text="${subItem.menuName}"></cite></a>
                     <dl class="layui-nav-child">
-                        <dd th:each="menu,menuStat:${subItem.children}"><a th:lay-href="${#request.getContextPath() + menu.menuPath}" th:text="${menu.menuName}"></a></dd>
+                        <dd th:each="menu,menuStat:${subItem.children}"><a th:lay-href="${#request.getContextPath() + menu.menuPath}">
+                            <i th:class="'layui-icon ' +${menu.icon}"></i>&emsp;<cite th:text="${menu.menuName}"></cite>
+                        </a></dd>
                     </dl>
                 </li>
             </ul>

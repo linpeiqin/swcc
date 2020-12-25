@@ -11,9 +11,7 @@ body {
     padding-right: 0;
 }
 
-#queryByEnergyUsageInfo {
-    width: 100px;
-    display: unset;
-    margin-right: 10px;
-    margin-bottom: 10px;
+.mychart {
+    width: 1000px;
+    height: 470px;
 }

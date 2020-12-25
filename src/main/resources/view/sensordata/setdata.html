@@ -6,13 +6,12 @@
     <!-- 引入公用部分 -->
     <script th:replace="common/head::static"></script>
     <!-- 样式 -->
-    <link th:href="@{/sensordata/css/setdata.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/sensordata/css/setdata.min.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="layui-row layui-col-space15">
     <div class="layui-col-md12">
         <div class="layui-card">
-            <div class="layui-card-header">如厕数据查询</div>
             <div class="layui-card-body">
                 <form class="layui-form" >
                     <div class="layui-inline layui-form-item">
@@ -26,18 +25,18 @@
                     <div class="layui-inline layui-form-item">
                         <label class="layui-form-label">开始时间:</label>
                         <div class="layui-input-block">
-                            <input type="text" id="startDatePicker" class="layui-input" placeholder="请选择日期">
+                            <input type="text" id="startTimePicker" class="layui-input" placeholder="请选择时间" autocomplete="off">
                         </div>
                     </div>
                     <div class="layui-inline layui-form-item">
                         <label class="layui-form-label">结束时间:</label>
                         <div class="layui-input-block">
-                            <input type="text" id="endDatePicker" class="layui-input" placeholder="请选择日期">
+                            <input type="text" id="endTimePicker" class="layui-input" placeholder="请选择时间" autocomplete="off">
                         </div>
                     </div>
                     <div class="layui-inline tool-btn layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" id="rqueryButton"><i class="layui-icon layui-icon-add-circle"></i>查询</button>
+                            <button class="layui-btn" id="rqueryButton"><i class="layui-icon layui-icon-search"></i>查询</button>
                         </div>
                     </div>
                 </form>
@@ -57,5 +56,5 @@
 </div>
 </body>
 <!-- js -->
-<script th:src="@{/sensordata/js/setdata.js}"></script>
+<script th:src="@{/sensordata/js/setdata.min.js}"></script>
 </html>

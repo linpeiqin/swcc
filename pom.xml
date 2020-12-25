@@ -14,7 +14,9 @@
         <version>2.1.7.RELEASE</version>
         <relativePath/>
     </parent>
-
+    <properties>
+        <jackson.version>2.11.0</jackson.version>
+    </properties>
     <dependencies>
         <!-- spring-boot-starter -->
         <dependency>

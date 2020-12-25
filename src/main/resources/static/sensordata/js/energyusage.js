@@ -1,21 +1,32 @@
 let tableIns;
+let util;
+let myChart;
 layui.config({
     base: ctx + '/common/echarts/'
-}).use(['util','element', 'form', 'table', 'layer', 'laydate','tree','echarts'], function () {
+}).use(['util', 'element', 'form', 'table', 'layer', 'laydate', 'echarts'], function () {
     let table = layui.table;
+    let element = layui.element;
     let laydate = layui.laydate;
-    let util = layui.util;
+    util = layui.util;
     let form = layui.form;
     let echarts = layui.echarts;
     tableIns = table.render({
         elem: '#energyUsageTable'
-        , url: ctx + '/wc/energyUsage/page'
+        , url: ctx + '/wc/energyUsage/list'
         , method: 'POST'
-        //请求前参数处理
-        , request: {
-            pageName: 'page' //页码的参数名称，默认：page
-            , limitName: 'rows' //每页数据量的参数名，默认：limit
-        }
+        , title: '用电信息'
+        , height: 'full-180'
+        , cellMinWidth: 200
+        , page: false
+        , cols: [[
+            {field: 'sortNumber', title: '序号', type: 'numbers'}
+            , {
+                field: 'id', title: '记录日期', templet: function (d) {
+                    return util.toDateString(d.id * 1000 * 60 * 60 * 24, "yyyy-MM-dd");
+                }
+            }
+            , {field: 'val', title: '电表读数', sort: true}
+        ]]
         , response: {
             statusName: 'flag' //规定数据状态的字段名称，默认：code
             , statusCode: true //规定成功的状态码，默认：0
@@ -23,77 +34,74 @@ layui.config({
             , countName: 'records' //规定数据总数的字段名称，默认：count
             , dataName: 'rows' //规定数据列表的字段名称，默认：data
         }
-        //响应后数据处理
-        , parseData: function (res) { //res 即为原始返回的数据
+        , parseData: function (res) {
             var data = res.data;
             return {
                 "flag": res.flag, //解析接口状态
                 "msg": res.msg, //解析提示文本
-                "records": data.records, //解析数据长度
-                "rows": data.rows //解析数据列表
+                "records": data.length, //解析数据长度
+                "rows": data //解析数据列表
             };
         }
-        , title: '用电信息'
-        , cols: [[
-            {field: 'sortNumber', title: '序号',type:'numbers'}
-            , {field: 'id', title: '记录日期',templet:function(d){return util.toDateString(d.id*1000* 60 * 60 * 24, "yyyy-MM-dd");}}
-            , {field: 'val', title: '用电量',sort: true}
-        ]]
-        , page: true
-        , height: 'full-220'
-        , cellMinWidth: 200
-        ,done: function (res, curr, count) {
-            var dateList =  new Array();
-            var usageList =  new Array();
-            var dataList =  new Array();
-            var temp = 0.0;
-            for (var i=0;i<count;i++){
-                var row = res.rows[i];
-                temp = row.val - temp;
-                dateList[i] = util.toDateString(row.id*1000* 60 * 60 * 24, "yyyy-MM-dd");
-                usageList[i] = row.val;
-                dataList[i] = temp;
-                temp = row.val;
-            }
-            initChart(dateList,usageList,dataList,echarts)
+        , done: function (res, curr, count) {
+            reloadChart(res, curr, count, echarts);
         }
     });
     initSelect(form);
-    // 刷新按钮
-    $("#rqueryButton").click(function() {
-        let wcId = $('#wcSelector').val();
-        let startDate = $('#startDatePicker').val();
-        let endDate = $('#endDatePicker').val();
-        let query = {
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-            , done: function (res, curr, count) {
-                //完成后重置where，解决下一次请求携带旧数据
-                this.where = {};
-            }
-        };
-        if (wcId) {
-            //设定异步数据接口的额外参数
-            query.where = {wcInfoWcId: wcId};
+// 刷新按钮
+    $("#rqueryButton").click(function () {
+        let wcId = $('#wcSelector').val().split('|')[0] ? $('#wcSelector').val().split('|')[0] : null;
+        let macCode = $('#wcSelector').val().split('|')[1] ? $('#wcSelector').val().split('|')[1] : null;
+        let sd = new Date($('#startDatePicker').val());
+        let ed = new Date($('#endDatePicker').val());
+        let startDate = "";
+        let endDate = "";
+        if (!isNaN(sd)) {
+            startDate = sd.getTime(sd) / 1000 / 60 / 60 / 24;
         }
+        if (!isNaN(ed)) {
+            endDate = ed.getTime(ed) / 1000 / 60 / 60 / 24;
+        }
+        let query = {};
+        query.where = {macCode: macCode, wcId: wcId, startDate: startDate, endDate: endDate};
         tableIns.reload(query);
         return false;
     })
-    //日期选择器
+//日期选择器
     laydate.render({
         elem: '#startDatePicker',
-        theme:'#8470FF',
+        theme: '#8470FF',
     });
-    //日期选择器
+//日期选择器
     laydate.render({
         elem: '#endDatePicker',
-        theme:'#8470FF',
+        theme: '#8470FF',
+    });
+    element.on('tab(energyusageTabFilter)', function(){
+        if (this.getAttribute('lay-id')=='chartLi'){
+            myChart.resize({width:$('#chart-panel').width(),height:$('#chart-panel').height()});
+        }
     });
 });
 
-function initChart(dateList,usageList,dataList,echarts){
-    var myChart  = echarts.init(document.getElementById('chart'));
+function reloadChart(res, curr, count, echarts) {
+    let dateList = new Array();
+    let usageList = new Array();
+    let dataList = new Array();
+    let temp = 0.0;
+    for (var i = 0; i < count; i++) {
+        let row = res.rows[i];
+        temp = row.val - temp;
+        dateList[i] = util.toDateString(row.id * 1000 * 60 * 60 * 24, "yyyy-MM-dd");
+        usageList[i] = row.val;
+        dataList[i] = temp;
+        temp = row.val;
+    }
+    initChart(dateList, usageList, dataList, echarts)
+}
+
+function initChart(dateList, usageList, dataList, echarts) {
+    myChart = echarts.init(document.getElementById('chart'));
     myChart.setOption(
         {
             title: {
@@ -109,7 +117,7 @@ function initChart(dateList,usageList,dataList,echarts){
                 trigger: "axis"
             },
             legend: {
-                data: ["用水量","水表读数"],
+                data: ["用电量", "电表读数"],
                 selectedMode: false,
             },
             toolbox: {
@@ -181,7 +189,8 @@ function initChart(dateList,usageList,dataList,echarts){
             ]
         }
     );
-    $(window).resize(function(){
-        myChart.resize();
-    })
+}
+
+window.onresize = function () {
+    myChart.resize({width:$('#chart-panel').width(),height:$('#chart-panel').height()});
 }

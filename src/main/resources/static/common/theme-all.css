@@ -3,7 +3,7 @@
 .theme-orange .layui-layout-admin .layui-header .layui-logo {
     color: #ffffff;
     background-color: #ff7800;
-    
+
 }
 
 /* header */
@@ -181,11 +181,11 @@
 }
 
 .theme-orange .layui-laydate-content td.laydate-selected {
-    background-color: rgba(255,120,0,.1);
+    background-color: rgba(255, 120, 0, .1);
 }
 
 .theme-orange .laydate-selected:hover {
-    background-color: rgba(255,120,0,.1) !important;
+    background-color: rgba(255, 120, 0, .1) !important;
 }
 
 /* timeline */
@@ -229,7 +229,7 @@
 }
 
 .theme-orange .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li {
-    background-color: rgba(255,120,0,.5);
+    background-color: rgba(255, 120, 0, .5);
 }
 
 .theme-orange .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li.layui-this {
@@ -237,7 +237,7 @@
 }
 
 .theme-orange .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li:after {
-    border-left-color: rgba(255,120,0,.5) !important;
+    border-left-color: rgba(255, 120, 0, .5) !important;
 }
 
 .theme-orange .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li.layui-this + li:after {
@@ -279,17 +279,18 @@
 
 .theme-orange .city-select a:hover,
 .theme-orange .city-select a:focus {
-    background-color: rgba(255,120,0,.07);
+    background-color: rgba(255, 120, 0, .07);
     color: #ff7800;
 }
 
 .theme-orange .city-picker-span > .title > span:hover {
-    background-color: rgba(255,120,0,.07);
+    background-color: rgba(255, 120, 0, .07);
 }
 
 .theme-orange .city-select-tab > a.active {
     color: #ff7800;
 }
+
 /** ---------------------------theme-orange主题end----------------------------------- */
 
 /** ---------------------------theme-light-green主题start----------------------------------- */
@@ -473,11 +474,11 @@
 }
 
 .theme-light-green .layui-laydate-content td.laydate-selected {
-    background-color: rgba(0,206,209,.1);
+    background-color: rgba(0, 206, 209, .1);
 }
 
 .theme-light-green .laydate-selected:hover {
-    background-color: rgba(0,206,209,.1) !important;
+    background-color: rgba(0, 206, 209, .1) !important;
 }
 
 /* timeline */
@@ -521,7 +522,7 @@
 }
 
 .theme-light-green .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li {
-    background-color: rgba(0,206,209,.5);
+    background-color: rgba(0, 206, 209, .5);
 }
 
 .theme-light-green .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li.layui-this {
@@ -529,7 +530,7 @@
 }
 
 .theme-light-green .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li:after {
-    border-left-color: rgba(0,206,209,.5) !important;
+    border-left-color: rgba(0, 206, 209, .5) !important;
 }
 
 .theme-light-green .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li.layui-this + li:after {
@@ -571,17 +572,18 @@
 
 .theme-light-green .city-select a:hover,
 .theme-light-green .city-select a:focus {
-    background-color: rgba(0,206,209,.07);
+    background-color: rgba(0, 206, 209, .07);
     color: #00ced1;
 }
 
 .theme-light-green .city-picker-span > .title > span:hover {
-    background-color: rgba(0,206,209,.07);
+    background-color: rgba(0, 206, 209, .07);
 }
 
 .theme-light-green .city-select-tab > a.active {
     color: #00ced1;
 }
+
 /** ---------------------------theme-light-green主题end----------------------------------- */
 
 /** ---------------------------theme-dark-green主题start----------------------------------- */
@@ -765,11 +767,11 @@
 }
 
 .theme-dark-green .layui-laydate-content td.laydate-selected {
-    background-color: rgba(0,150,136,.1);
+    background-color: rgba(0, 150, 136, .1);
 }
 
 .theme-dark-green .laydate-selected:hover {
-    background-color: rgba(0,150,136,.1) !important;
+    background-color: rgba(0, 150, 136, .1) !important;
 }
 
 /* timeline */
@@ -813,7 +815,7 @@
 }
 
 .theme-dark-green .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li {
-    background-color: rgba(0,150,136,.5);
+    background-color: rgba(0, 150, 136, .5);
 }
 
 .theme-dark-green .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li.layui-this {
@@ -821,7 +823,7 @@
 }
 
 .theme-dark-green .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li:after {
-    border-left-color: rgba(0,150,136,.5) !important;
+    border-left-color: rgba(0, 150, 136, .5) !important;
 }
 
 .theme-dark-green .layui-tab.layui-steps.layui-steps-simple > .layui-tab-title > li.layui-this + li:after {
@@ -863,17 +865,18 @@
 
 .theme-dark-green .city-select a:hover,
 .theme-dark-green .city-select a:focus {
-    background-color: rgba(0,150,136,.07);
+    background-color: rgba(0, 150, 136, .07);
     color: #009688;
 }
 
 .theme-dark-green .city-picker-span > .title > span:hover {
-    background-color: rgba(0,150,136,.07);
+    background-color: rgba(0, 150, 136, .07);
 }
 
 .theme-dark-green .city-select-tab > a.active {
     color: #009688;
 }
+
 /** ---------------------------theme-dark-green主题end----------------------------------- */
 
 

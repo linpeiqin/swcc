@@ -33,10 +33,12 @@
     padding: 0;
     border: 1px solid gray;
 }
+
 .edui-default .edui-toolbar .edui-state-disabled .edui-label {
     color: #ccc;
 }
+
 .edui-default .edui-toolbar .edui-state-disabled .edui-icon {
     opacity: 0.3;
-    filter: alpha(opacity = 30);
+    filter: alpha(opacity=30);
 }

@@ -27,6 +27,12 @@
                     <div class="layui-card-body">
                         <form id="menuForm" class="layui-form layui-form-pane">
                             <div class="layui-form-item">
+                                <label for="" class="layui-form-label">选择图标</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="iconPicker" autocomplete="off" lay-filter="iconPicker" placeholder="选择图标" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
                                 <label class="layui-form-label">上级节点</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="menuParentName" autocomplete="off" placeholder="上级节点"
@@ -61,6 +67,7 @@
                             <input type="text" name="updateTime" hidden="hidden"/>
                             <!-- treeId，用于更新HTML-->
                             <input type="text" name="treeId" hidden="hidden"/>
+                            <input type="text" id="icon" name="icon" hidden="hidden"/>
 
                             <div class="layui-form-item">
                                 <div class="layui-input-block">

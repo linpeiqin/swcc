@@ -14,7 +14,15 @@ public class WcInfoDto implements Serializable {
     private String password;
     private String messageId;
     private String macCode;
+    private String opt;
 
+    public String getOpt() {
+        return opt;
+    }
+
+    public void setOpt(String opt) {
+        this.opt = opt;
+    }
 
     public String getMacCode() {
         return macCode;

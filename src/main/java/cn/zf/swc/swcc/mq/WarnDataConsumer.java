@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import wc.dto.WarnDataDto;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 @Component
@@ -28,6 +28,9 @@ public class WarnDataConsumer {
         warnData.setTime(new Date(Long.valueOf(warnDataDto.getTime())));
         warnData.setSwitchId(Long.valueOf(warnDataDto.getSwitchId()));
         warnData.setStatus(Long.valueOf(warnDataDto.getStatus()));
+        warnData.setWcId(Long.valueOf(warnDataDto.getWcId()));
+        warnData.setCreateTime(new Date());
+        warnData.setUpdateTime(new Date());
         this.warnDataRepository.save(warnData);
     }
 

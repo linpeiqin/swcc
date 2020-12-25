@@ -1,6 +1,7 @@
 package cn.zf.swc.swcc.sensordata.controller;
 
 import cn.zf.swc.swcc.common.controller.CommonController;
+import cn.zf.swc.swcc.common.pojo.PageInfo;
 import cn.zf.swc.swcc.common.pojo.Result;
 import cn.zf.swc.swcc.sensordata.pojo.SetData;
 import cn.zf.swc.swcc.sensordata.service.SetDataService;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/wc/setData/")
@@ -32,4 +32,5 @@ public class SetDataController extends CommonController<SetDataVo, SetData, Long
     public Result<List<WcStatisticsInfo>> geTotalUsageByDay(Long wcId,int day){
         return this.setDataService.listByDay(wcId,day);
     }
+
 }

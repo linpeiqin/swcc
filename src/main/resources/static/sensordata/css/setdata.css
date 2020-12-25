@@ -10,10 +10,3 @@ body {
 .layui-table-tool-temp {
     padding-right: 0;
 }
-
-#queryBySetDataInfo {
-    width: 100px;
-    display: unset;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}

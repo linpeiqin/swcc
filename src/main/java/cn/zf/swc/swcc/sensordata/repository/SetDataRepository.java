@@ -2,7 +2,6 @@ package cn.zf.swc.swcc.sensordata.repository;
 
 import cn.zf.swc.swcc.common.repository.CommonRepository;
 import cn.zf.swc.swcc.sensordata.pojo.SetData;
-import cn.zf.swc.swcc.wcinfo.vo.WcStatisticsInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 

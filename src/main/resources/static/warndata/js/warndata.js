@@ -1,12 +1,11 @@
 let tableIns;
 let tree;
-layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], function () {
+layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree', 'util'], function () {
     let table = layui.table;
     let form = layui.form;//select、单选、复选等依赖form
     let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
     let laydate = layui.laydate;
     tree = layui.tree;
-
     tableIns = table.render({
         elem: '#warnDataTable'
         , url: ctx + '/wc/warnData/page'
@@ -35,7 +34,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
         }
         , title: '报警数据'
         , cols: [[
-            {field: 'sortNumber', title: '序号',type:'numbers'}
+            {field: 'sortNumber', title: '序号', type: 'numbers'}
             , {field: 'time', title: '开始时间'}
             , {field: 'disposeTime', title: '处理时间'}
             , {field: 'status', title: '处理状态'}
@@ -45,13 +44,13 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
             , {fixed: 'right', title: '操作', toolbar: '#warnDataTableBarDemo'}
         ]]
         , page: true
-        , height: 'full-160'
+        , height: 'full-120'
         , cellMinWidth: 60
     });
 
     initSelect(form);
     // 刷新按钮
-    $("#rqueryButton").click(function() {
+    $("#rqueryButton").click(function () {
         let wcId = $('#wcSelector').val();
         let startDate = $('#startDatePicker').val();
         let endDate = $('#endDatePicker').val();
@@ -94,13 +93,13 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
     //日期选择器
     laydate.render({
         elem: '#startDatePicker',
-        theme:'#8470FF',
+        theme: '#8470FF',
         type: 'datetime', //选择时间
     });
     //日期选择器
     laydate.render({
         elem: '#endDatePicker',
-        theme:'#8470FF',
+        theme: '#8470FF',
         type: 'datetime', //选择时间
     });
 });
@@ -111,7 +110,8 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tree', 'util'], funct
 function warnDataFormSave() {
     let warnDataForm = $("#warnDataForm").serializeObject();
     $.post(ctx + "/wc/warnData/save", warnDataForm, function (data) {
-        layer.msg("保存成功", {icon: 1,time: 2000}, function () {});
+        layer.msg("保存成功", {icon: 1, time: 2000}, function () {
+        });
         tableIns.reload();
     });
 }

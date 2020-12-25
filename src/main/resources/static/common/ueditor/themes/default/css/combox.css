@@ -53,7 +53,7 @@
 .edui-toolbar .edui-state-disabled .edui-combox-body {
     background-color: #F0F0EE;
     opacity: 0.3;
-    filter: alpha(opacity = 30);
+    filter: alpha(opacity=30);
 }
 
 .edui-toolbar .edui-state-opened .edui-combox-body {

@@ -2,6 +2,7 @@ package cn.zf.swc.swcc.mq;
 
 import cn.zf.swc.swcc.sensorconfig.pojo.SensorConfig;
 import cn.zf.swc.swcc.sensorconfig.repository.SensorConfigRepository;
+import cn.zf.swc.swcc.wcinfo.pojo.WcInfo;
 import cn.zf.swc.swcc.wcinfo.repository.WcInfoRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -17,7 +18,6 @@ import java.util.Date;
 public class SensorConfigConsumer {
     @Autowired
     private SensorConfigRepository sensorConfigRepository;
-
     @Autowired
     private WcInfoRepository wcInfoRepository;
     /**
@@ -26,14 +26,29 @@ public class SensorConfigConsumer {
      */
     @RabbitHandler
     public void recieved(SensorConfigDto sensorConfigDto) {
-        SensorConfig sensorConfig = new SensorConfig();
+        WcInfo wcInfo = this.wcInfoRepository.findByWcIdAndMacCode(Long.valueOf(sensorConfigDto.getWcId()),sensorConfigDto.getMacCode());
+        if (wcInfo == null){
+            return ;
+        }
+        SensorConfig sensorConfig = this.sensorConfigRepository.findByWcIdAndMacCodeAndSensorId(Long.valueOf(sensorConfigDto.getWcId()),sensorConfigDto.getMacCode(),Long.valueOf(sensorConfigDto.getId()));
+        if (sensorConfig == null){
+            sensorConfig = new SensorConfig();
+            sensorConfig.setCreateTime(new Date());
+        } else {
+            if (sensorConfigDto.getOpt().equals("del")){
+                this.sensorConfigRepository.delete(sensorConfig);
+                return ;
+            }
+        }
+        sensorConfig.setWcInfoId(wcInfo.getId());
+        sensorConfig.setUpdateTime(new Date());
         sensorConfig.setMacCode(sensorConfigDto.getMacCode());
-       // sensorConfig.setTime(new Date(sensorConfigDto.get));
         sensorConfig.setLimitDownVal(sensorConfigDto.getLimitDownVal());
         sensorConfig.setLimitVal(sensorConfigDto.getLimitVal());
         sensorConfig.setModbusId(Long.valueOf(sensorConfigDto.getModbusId()));
         sensorConfig.setSensorType(Long.valueOf(sensorConfigDto.getSensorType()));
-        sensorConfig.setWcInfo(this.wcInfoRepository.findByWcIdAndMacCode(sensorConfigDto.getWcId(),sensorConfigDto.getMacCode()));
+        sensorConfig.setWcId(Long.valueOf(sensorConfigDto.getWcId()));
+        sensorConfig.setSensorId(Long.valueOf(sensorConfigDto.getId()));
         this.sensorConfigRepository.save(sensorConfig);
     }
 

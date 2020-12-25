@@ -1,3 +1,4 @@
+var myChart
 layui.config({
     base: ctx + '/common/echarts/'
 }).use(['layer', 'echarts'], function () {
@@ -8,7 +9,7 @@ layui.config({
             type: 'get',
             dataType: 'json',
             success: function (data) {
-                initPage(data,echarts);
+                initPage(data, echarts);
             },
             error: function (XMLHttpRequest) {
                 layer.msg("请求失败");
@@ -16,12 +17,13 @@ layui.config({
         }
     );
 })
-function  initPage(data,echarts){
+
+function initPage(data, echarts) {
     var xAxisData = new Array();
     var dataMaps = new Array();
     var dataMapIndex = 0;
     var wcInfos = new Array();
-    var myChart = echarts.init(document.getElementById('chart'));
+    myChart = echarts.init(document.getElementById('chart'));
     $.each(data.data, function (n, info) {
         $('#wcBrief').append("<li class=\"col-sm-12 col-md-6 col-xs-12\">" +
             "<a href=\"javascript:;\" class=\"clearfix\">" +
@@ -35,46 +37,45 @@ function  initPage(data,echarts){
             "</div>" +
             "</a>" +
             "</li>");
-            $.ajax({
-                    url: '/wc/setData/getTotalUsage',
-                    type: 'get',
-                    dataType: 'json',
-                    data:{wcId:info.wcId,day:7},
-                    success: function (data) {
-                        var tempList = new Array();
-                        $.each(data.data, function (dataIndex, data) {
-                            xAxisData[dataMapIndex] = data.date;
-                            tempList[dataIndex] = data.number
-                        });
-                        wcInfos[dataMapIndex] = info.info;
-                        dataMaps[dataMapIndex] = {
-                            name: info.info,
-                            type: "line",
-                            smooth: true,
-                            itemStyle: {
-                                normal: {
-                                    areaStyle: {
-                                        type: "default"
-                                    },
-                                    color: "rgb(" + Math.random() * 255 + ", " + Math.random() * 255 + ", " + Math.random() * 255 + ")"
-                                }
-                            },
-                            data: tempList
-                        };
-                        dataMapIndex = dataMapIndex + 1;
-                        updateCharts(xAxisData, dataMaps, wcInfos,myChart);
-                    },
-                    error: function (XMLHttpRequest) {
-                        layer.msg("请求失败");
-                    }
+        $.ajax({
+                url: '/wc/setData/getTotalUsage',
+                type: 'get',
+                dataType: 'json',
+                data: {wcId: info.wcId, day: 7},
+                success: function (data) {
+                    var tempList = new Array();
+                    $.each(data.data, function (dataIndex, data) {
+                        xAxisData[dataMapIndex] = data.date;
+                        tempList[dataIndex] = data.number
+                    });
+                    wcInfos[dataMapIndex] = info.info;
+                    dataMaps[dataMapIndex] = {
+                        name: info.info,
+                        type: "line",
+                        smooth: true,
+                        itemStyle: {
+                            normal: {
+                                areaStyle: {
+                                    type: "default"
+                                },
+                                color: "rgb(" + Math.random() * 255 + ", " + Math.random() * 255 + ", " + Math.random() * 255 + ")"
+                            }
+                        },
+                        data: tempList
+                    };
+                    dataMapIndex = dataMapIndex + 1;
+                    updateCharts(xAxisData, dataMaps, wcInfos);
+                },
+                error: function (XMLHttpRequest) {
+                    layer.msg("请求失败");
                 }
-            );
+            }
+        );
 
     })
-
 }
 
-function updateCharts(xAxisDataVar, dataMapsVar, names,myChart){
+function updateCharts(xAxisDataVar, dataMapsVar, names) {
     myChart.setOption(
         {
             title: {
@@ -130,4 +131,7 @@ function updateCharts(xAxisDataVar, dataMapsVar, names,myChart){
             }
             , series: dataMapsVar
         });
+}
+window.onresize = function () {
+    myChart.resize();
 }

@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface WcInfoService extends CommonService<WcInfoVo, WcInfo, Long> {
 
-    Result<List<WcInfoVo>> listByA();
-
+    Result<List<WcInfoVo>> selectByAuthentication();
+    WcInfo findByWcIdAndMacCode(Long wcId, String macCode);
+    WcInfoVo findVoByWcIdAndMacCode(Long wcId, String macCode);
     Result<List<WcStatisticsInfo>> listByDay(int day);
 }

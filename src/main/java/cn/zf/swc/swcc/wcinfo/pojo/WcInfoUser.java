@@ -1,6 +1,5 @@
 package cn.zf.swc.swcc.wcinfo.pojo;
 
-import cn.zf.swc.swcc.sys.sysauthority.pojo.SysAuthority;
 import cn.zf.swc.swcc.sys.sysuser.pojo.SysUser;
 import lombok.Data;
 import org.hibernate.annotations.NotFound;
@@ -9,6 +8,7 @@ import org.hibernate.annotations.NotFoundAction;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Random;
 
 @Entity
 @Table(name = "CWC_WC_INFO_USER")
@@ -34,5 +34,10 @@ public class WcInfoUser implements Serializable {
     @JoinColumn(name = "wcInfoId",referencedColumnName = "id", insertable = false, updatable = false)
     @NotFound(action= NotFoundAction.IGNORE)
     private WcInfo wcInfo;//厕所信息
+
+    @Override
+    public int hashCode(){
+        return new Random().hashCode();
+    }
 
 }
