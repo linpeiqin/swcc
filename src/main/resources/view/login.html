@@ -181,7 +181,7 @@
             <input id="remember-me" type="checkbox" name="remember-me" value="true" style="display: none">
         </div>
         <div class="layui-form-item">
-            <a class="layui-btn layui-btn-fluid" onclick="formSubmit()">登录</a>
+            <a class="layui-btn layui-btn-fluid" id ="loginA" onclick="formSubmit()">登录</a>
         </div>
        <!-- <div class="layui-form-item">
             <button type="reset" class="layui-btn layui-btn-fluid">重置</button>
@@ -223,10 +223,11 @@
         })
     }
 
-    function changeCode() {
-        var img = document.getElementById("captchaImg");
-        img.src = ctx + "/getVerifyCodeImage?time=" + new Date().getTime();
-    }
+    $(document).keydown(function (event) {
+        if (event.keyCode == 13) {
+            formSubmit();
+        }
+    });
 </script>
 </body>
 </html>

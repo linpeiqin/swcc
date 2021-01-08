@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>大屏数据展示</title>
+    <link rel="shortcut icon" th:href='${sys.sysLogo}' th:mce_href='${sys.sysLogo}' type="image/x-icon">
+    <script th:src="@{/common/jquery/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{/common/echarts/echarts.min.js}" type="text/javascript"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=aLOsyh3woEhCZBbFMb0QQzP3B65GP9T3"></script>
+    <link rel="stylesheet" th:href="@{/largescreen/css/largescreen.min.css}" />
+   <script th:inline="javascript">
+        ctx = [[${#request.getContextPath()}]];//应用路径
+    </script>
+    <script type="text/javascript">if (window !== top) top.location.replace(location.href);</script>
+    <style type="text/css">
+        *{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box}
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="loadbox"> <img th:src="@{/largescreen/images/loading.gif}"> 页面加载中... </div>
+    </div>
+    <div class="head">
+        <h1 th:text="${wcInfoVo.info}"></h1>
+        <div class="weather" id="time"></div>
+    </div>
+    <div class="mainbox">
+        <ul class="clearfix">
+            <li>
+                <div class="boxall" style="height: 2.7rem">
+                    <div class="alltitle">人流量</div>
+                    <div class="sycm">
+                        <ul class="clearfix">
+                            <li><span id="todaySumFlow">0</span><h2>今日总流量</h2></li>
+                            <li><span id="yesterdaySumFlow">0</span><h2>昨日总流量</h2></li>
+                            <li><span id="dayGrowth">0</span>%<h2>环比增长</h2></li>
+                        </ul>
+                        <div style="border-bottom: 1px solid rgba(255,255,255,.1)"></div>
+                        <ul class="clearfix">
+                            <li><span id="sumSetNumber">0</span><h2>总厕位数</h2></li>
+                            <li><span id="manSetNumber">0</span><h2>男厕位数</h2></li>
+                            <li><span id="womanSetNumber">0</span><h2>女厕位数</h2></li>
+                        </ul>
+                    </div>
+                    <div class="boxfoot"></div>
+                </div>
+                <div class="boxall" style="height: 2.65rem">
+                    <div class="alltitle">单日占比</div>
+                    <div class="sy" id="echarts1"></div>
+                    <div class="sy" id="echarts2"></div>
+                    <div class="sy" id="echarts3"></div>
+                    <div class="boxfoot"></div>
+                </div>
+                <div class="boxall" style="height: 2.95rem">
+                    <div class="alltitle">七天使用量</div>
+                    <div id="echarts4" style="height: 2.2rem; width: 100%;"></div>
+                    <div class="boxfoot"></div>
+                </div>
+            </li>
+            <li>
+                <div class="bar">
+                    <div class="barbox">
+                        <ul class="clearfix">
+                            <li class="pulll_left"><span id="manSumFlow">0</span></li>
+                            <li class="pulll_left"><span id="womanSumFlow">0</span></li>
+                        </ul>
+                    </div>
+                    <div class="barbox2">
+                        <ul class="clearfix">
+                            <li class="pulll_left">男厕总流量</li>
+                            <li class="pulll_left">女厕总流量</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="map" id="wcPBaiduMap">
+                </div>
+            </li>
+            <li>
+                <div class="boxall" style="height:5.2rem">
+                    <div class="alltitle">传感器数据</div>
+                    <div class="clearfix">
+                        <div class="sy2" id="echarts6"></div>
+                        <div class="sy2" id="echarts7"></div>
+                    </div>
+                    <div class="addnew">
+                        <div class="tit02"><span>实时传感数据</span></div>
+                        <div class="adduser">
+                            <ul class="clearfix" id="sensorDataUlId">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="boxfoot"></div>
+                </div>
+                <div class="boxall" style="height: 3.4rem">
+                    <div class="alltitle">实时流量记录</div>
+                    <div class="wrap">
+                        <ul id="setDataUlId">
+                        </ul>
+                    </div>
+                    <div class="boxfoot"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="back"></div>
+</body>
+<script th:src="@{/largescreen/js/largescreen.min.js}" type="text/javascript"></script>
+<script th:inline="javascript">
+    let port = [[${port}]];//端口
+    let websocket = null;
+    //判断当前浏览器是否支持WebSocket
+    if ('WebSocket' in window) {
+        //动态获取域名或ip
+        let hostname = window.location.hostname;
+        port = window.location.port;
+        websocket = new WebSocket("ws://"+hostname+":" + port + ctx + "/websocket/largeScreen/"+[[${wcInfoVo.id}]]);
+    } else {
+        console.error("不支持WebSocket");
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function (e) {
+        console.error("WebSocket连接发生错误");
+        websocket.close();
+    };
+
+    //连接成功建立的回调方法
+    websocket.onopen = function () {
+        console.log("WebSocket连接成功")
+    };
+
+    //接收到消息的回调方法
+    websocket.onmessage = function (event) {
+        initPage(event);
+    }
+
+    //连接关闭的回调方法
+    websocket.onclose = function () {
+        console.log("WebSocket连接关闭")
+    };
+
+</script>
+</html>

@@ -94,13 +94,13 @@ public class SystemMonitorUtil {
         HashMap<String, Double> hashMap = new HashMap<>();
         File[] files = File.listRoots();
         double total = 0;
-        double used = 0;
+        double free = 0;
         for (File file : files) {
             total = total + file.getTotalSpace() / 1024 / 1024 / 1024;
-            used = used + file.getFreeSpace() / 1024 / 1024 / 1024;
+            free = free + file.getFreeSpace() / 1024 / 1024 / 1024;
         }
         hashMap.put("total",total);
-        hashMap.put("used",used);
+        hashMap.put("used",total-free);
 
         return hashMap;
     }

@@ -7,7 +7,9 @@ import cn.zf.swc.swcc.sensordata.pojo.SensorData;
 import cn.zf.swc.swcc.sensordata.repository.SensorDataRepository;
 import cn.zf.swc.swcc.sensordata.specification.SensorDataSpecification;
 import cn.zf.swc.swcc.sensordata.vo.SensorDataVo;
+import cn.zf.swc.swcc.sensordata.vo.SetDataVo;
 import cn.zf.swc.swcc.sys.dic.service.DicService;
+import cn.zf.swc.swcc.util.CopyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -43,5 +45,23 @@ public class SensorDataServiceImpl extends CommonServiceImpl<SensorDataVo, Senso
             }
         }
         return Result.of(sensorDataPage);
+    }
+
+    @Override
+    public List<SensorDataVo> findBy(Long wcId, String macCode) {
+        List<SensorDataVo> sensorDataVos = CopyUtil.copyList(this.sensorDataRepository.findby(wcId,macCode),SensorDataVo.class);
+        for (SensorDataVo sensorDataVo : sensorDataVos){
+            sensorDataVo.setValueText();
+            String value = dicService.findByTagAndKey("SENSOR_TYPE_TAG",String.valueOf(sensorDataVo.getSensorType()));
+            if (value != null){
+                sensorDataVo.setSensorTypeName(value);
+            }
+        }
+        return sensorDataVos;
+    }
+
+    @Override
+    public Long findSumNumber(Long wcId, String macCode) {
+        return this.sensorDataRepository.findSumNumber(wcId,macCode);
     }
 }

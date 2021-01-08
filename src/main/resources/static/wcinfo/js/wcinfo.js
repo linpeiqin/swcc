@@ -38,9 +38,9 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'tree', 'util'], func
             , {
                 field: 'status', title: '连接状态', sort: true, templet: function (d) {
                     if (d.status == 1) {
-                        return "<span  style='background: rgba(13,185,51,0.72); padding: 6px; border-radius: 3px; color: #ffffff;'>在线</span>";
+                        return "<span  style='background: rgba(13,185,51,0.72); padding: 6px; border-radius: 3px; color: #ffffff;'>"+d.statusName+"</span>";
                     } else {
-                        return "<span  style='background: rgba(0,0,0,0.37); padding: 6px; border-radius: 3px; color: #ffffff;'>离线</span>";
+                        return "<span  style='background: rgba(0,0,0,0.37); padding: 6px; border-radius: 3px; color: #ffffff;'>"+d.statusName+"</span>";
                     }
                 }
             }

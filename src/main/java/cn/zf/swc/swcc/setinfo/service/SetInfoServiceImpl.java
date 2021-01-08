@@ -47,4 +47,18 @@ public class SetInfoServiceImpl extends CommonServiceImpl<SetInfoVo, SetInfo, Lo
         return Result.of(setInfoPage);
     }
 
+    @Override
+    public Long findSumSetNumber(Long wcId) {
+        return this.setInfoRepository.findSumSetNumber(wcId);
+    }
+
+    @Override
+    public Long findSumManSetNumber(Long wcId) {
+        return this.setInfoRepository.findSumManSetNumber(wcId);
+    }
+
+    @Override
+    public Long findSumWomanSetNumber(Long wcId) {
+        return this.setInfoRepository.findSumWomanSetNumber(wcId);
+    }
 }

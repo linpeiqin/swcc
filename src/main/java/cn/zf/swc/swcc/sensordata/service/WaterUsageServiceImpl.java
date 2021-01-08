@@ -26,4 +26,9 @@ public class WaterUsageServiceImpl extends CommonServiceImpl<WaterUsageVo, Water
     public Result<List<WaterUsageVo>> list(WaterUsageVo entityVo) {
         return Result.of(CopyUtil.copyList(waterUsageRepository.findAll(wateryUsageSpecification.getWaterUsageSpecification(entityVo),new Sort(Sort.Direction.ASC,"id")),  WaterUsageVo.class));
     }
+
+    @Override
+    public Double getWaterUsageV(Long wcId, String macCode) {
+        return this.waterUsageRepository.getWaterUsageV(wcId,macCode);
+    }
 }

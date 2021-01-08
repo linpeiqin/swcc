@@ -6,4 +6,5 @@ import cn.zf.swc.swcc.sensordata.vo.EnergyUsageVo;
 
 public interface EnergyUsageService extends CommonService<EnergyUsageVo, EnergyUsage, Long> {
 
+    Double getEnergyUsageV(Long wcId, String macCode);
 }

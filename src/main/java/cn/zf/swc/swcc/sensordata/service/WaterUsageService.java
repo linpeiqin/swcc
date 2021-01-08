@@ -6,4 +6,5 @@ import cn.zf.swc.swcc.sensordata.vo.WaterUsageVo;
 
 public interface WaterUsageService extends CommonService<WaterUsageVo, WaterUsage, Long> {
 
+    Double getWaterUsageV(Long wcId, String macCode);
 }

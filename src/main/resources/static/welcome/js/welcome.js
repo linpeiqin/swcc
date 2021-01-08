@@ -1,11 +1,13 @@
 var myChart
 layui.config({
     base: ctx + '/common/echarts/'
+}).extend({
+    echarts:'echarts.min'
 }).use(['layer', 'echarts'], function () {
     let layer = layui.layer;
     let echarts = layui.echarts;
     $.ajax({
-            url: '/wc/wcInfo/wcInfoSelect',
+            url: '/wc/wcInfo/wcInfoForState',
             type: 'get',
             dataType: 'json',
             success: function (data) {
@@ -19,38 +21,28 @@ layui.config({
 })
 
 function initPage(data, echarts) {
-    var xAxisData = new Array();
-    var dataMaps = new Array();
-    var dataMapIndex = 0;
-    var wcInfos = new Array();
+    let xAxisData = new Array();
+    let dataMaps = new Array();
+    let dataMapIndex = 0;
+    let wcInfos = new Array();
     myChart = echarts.init(document.getElementById('chart'));
-    $.each(data.data, function (n, info) {
-        $('#wcBrief').append("<li class=\"col-sm-12 col-md-6 col-xs-12\">" +
-            "<a href=\"javascript:;\" class=\"clearfix\">" +
-            "<div class=\"icon-bg bg-org f-l\">" +
-            "<span class=\"iconfont\">&#xe606;</span>" +
-            "</div>" +
-            "<div class=\"right-text-con\">" +
-            "<p><span class=\"color-org\">" + info.info + "</span></p>" +
-            "<p id=\"wc_total_" + info.wcId + "\">总人次：0</p>" +
-            "<p id=\"wc_left_" + info.wcId + "\">剩余厕位：0</p>" +
-            "</div>" +
-            "</a>" +
-            "</li>");
+    for (let i = 0; i < data.data.length; i++) {
+        let info = data.data[i];
+        initBrief(info);
         $.ajax({
                 url: '/wc/setData/getTotalUsage',
                 type: 'get',
                 dataType: 'json',
-                data: {wcId: info.wcId, day: 7},
+                data: {wcId: info.wcInfoVo.wcId, macCode: info.wcInfoVo.macCode, day: 6},
                 success: function (data) {
-                    var tempList = new Array();
+                    let tempList = new Array();
                     $.each(data.data, function (dataIndex, data) {
-                        xAxisData[dataMapIndex] = data.date;
-                        tempList[dataIndex] = data.number
+                        xAxisData[dataIndex] = data.date;
+                        tempList[dataIndex] = data.number;
                     });
                     wcInfos[dataMapIndex] = info.info;
                     dataMaps[dataMapIndex] = {
-                        name: info.info,
+                        name: info.wcInfoVo.info,
                         type: "line",
                         smooth: true,
                         itemStyle: {
@@ -69,11 +61,34 @@ function initPage(data, echarts) {
                 error: function (XMLHttpRequest) {
                     layer.msg("请求失败");
                 }
-            }
-        );
-
-    })
+            });
+    }
 }
+
+function initBrief(info) {
+    $('#wcBrief').append("<li class=\"col-sm-12 col-md-6 col-xs-12\">" +
+        "<a href=\"/wc/wcInfo/largeScreen?wcInfoId="+ info.wcInfoVo.id+"\" target='_blank' class=\"clearfix\">" +
+        "<div class=\"icon-bg bg-org f-l\">" +
+        "<span class=\"iconfont\">&#xe606;</span>" +
+        "</div>" +
+        "<div class=\"right-text-con\">" +
+        "<p>" +
+        "<span class=\"color-org\">" + info.wcInfoVo.info + "</span>" +
+        "<span class=\"color-org\">(" + info.wcInfoVo.statusName + ")</span>" +
+        "</p>" +
+        "<p>" +
+        "<span id=\"wcTotal" + info.wcInfoVo.wcIdAndMacCode + "\">总人次："+info.sumSetDataNumber+";</span>" +
+        "<span id=\"wcLeft" + info.wcInfoVo.wcIdAndMacCode + "\">总厕位："+info.sumSetNumber+";</span>" +
+        "</p>" +
+        "<p>" +
+        "<span id=\"wcLeft" + info.wcInfoVo.wcIdAndMacCode + "\">男厕位："+info.sumManSetNumber+";</span>" +
+        "<span id=\"wcLeft" + info.wcInfoVo.wcIdAndMacCode + "\">女厕位："+info.sumWomanSetNumber+";</span>" +
+        "</p>" +
+        "</div>" +
+        "</a>" +
+        "</li>");
+}
+
 
 function updateCharts(xAxisDataVar, dataMapsVar, names) {
     myChart.setOption(
@@ -116,22 +131,18 @@ function updateCharts(xAxisDataVar, dataMapsVar, names) {
                     }
                 }
             },
-            calculable: false,
-            xAxis: [{
+            xAxis: {
                 type: "category",
                 boundaryGap: false
                 , data: xAxisDataVar
-            }],
-            yAxis: [{
+            },
+            yAxis: {
                 type: "value"
-            }],
-            grid: {
-                x2: 30,
-                x: 50
             }
             , series: dataMapsVar
         });
 }
+
 window.onresize = function () {
     myChart.resize();
 }

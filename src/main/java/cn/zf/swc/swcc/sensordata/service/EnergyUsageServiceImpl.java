@@ -27,4 +27,9 @@ public class EnergyUsageServiceImpl extends CommonServiceImpl<EnergyUsageVo, Ene
     public Result<List<EnergyUsageVo>> list(EnergyUsageVo entityVo) {
         return Result.of(CopyUtil.copyList(energyUsageRepository.findAll(energyUsageSpecification.getEnergyUsageSpecification(entityVo),new Sort(Sort.Direction.ASC,"id")),  EnergyUsageVo.class));
     }
+
+    @Override
+    public Double getEnergyUsageV(Long wcId, String macCode) {
+        return this.energyUsageRepository.getEnergyUsageV(wcId,macCode);
+    }
 }

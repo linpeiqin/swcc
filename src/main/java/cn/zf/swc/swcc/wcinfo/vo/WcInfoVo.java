@@ -32,4 +32,18 @@ public class WcInfoVo extends PageCondition implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date statusTime;//状态更新时间
 
+    private String wcIdAndMacCode;
+
+    public String getWcIdAndMacCode() {
+        return this.wcId+"|"+this.macCode;
+    }
+
+    private String statusName;
+
+    public String getStatusName() {
+        if (status.equals(1)){
+            return "在线";
+        }
+        return "离线";
+    }
 }

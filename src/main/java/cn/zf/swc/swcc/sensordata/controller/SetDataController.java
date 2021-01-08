@@ -29,8 +29,13 @@ public class SetDataController extends CommonController<SetDataVo, SetData, Long
 
 
     @GetMapping(value = "/getTotalUsage")
-    public Result<List<WcStatisticsInfo>> geTotalUsageByDay(Long wcId,int day){
-        return this.setDataService.listByDay(wcId,day);
+    public Result<List<WcStatisticsInfo>> geTotalUsageByDay(Long wcId,String macCode,int day){
+        return this.setDataService.geTotalUsageByDay(wcId,macCode,day);
     }
+
+   /* @GetMapping(value = "/getSumSetInfo")
+    public WcStatisticsInfo getSumSetInfo(Long wcId,String macCode){
+        return this.setDataService.getSumSetInfo(wcId,macCode);
+    }*/
 
 }

@@ -190,7 +190,6 @@ class IndexController {
     public ModelAndView monitor() {
         return new ModelAndView("monitor.html","port",port);
     }
-
     /**
      * 后台欢迎页
      *
@@ -198,7 +197,7 @@ class IndexController {
      */
     @GetMapping("main")
     public ModelAndView main() {
-            return new ModelAndView("main.html","port",port);
+            return new ModelAndView("main.html");
     }
     /**
      * 跳转实时日志
@@ -207,4 +206,6 @@ class IndexController {
     public ModelAndView logging() {
         return new ModelAndView("logging.html","port",port);
     }
+
+
 }

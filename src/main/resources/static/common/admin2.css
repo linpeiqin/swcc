@@ -1,20 +1,3 @@
-/*圆角*/
-/*阴影*/
-/*字体*/
-/*动画属性*/
-/*清楚浮动*/
-/*2.1 栅格系统
-    Name:           style_span
-    Example:
-    <div class="responsive">
-    <div class="row cl" role="grid">
-      <div class="col-1">……</div>
-      ……
-    </div>
-    </div>
-    Explain:        栅格系统
-*/
-/*2.1 响应式栅格系统*/
 .container {
     padding-right: 15px;
     padding-left: 15px;

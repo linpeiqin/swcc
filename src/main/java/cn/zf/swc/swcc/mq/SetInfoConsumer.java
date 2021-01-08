@@ -26,19 +26,20 @@ public class SetInfoConsumer {
      */
     @RabbitHandler
     public void recieved(SetInfoDto setInfoDto) {
-        WcInfo wcInfo = this.wcInfoRepository.findByWcIdAndMacCode(Long.valueOf(setInfoDto.getWcId()),setInfoDto.getMacCode());
-        if (wcInfo == null){
-            return ;
+        WcInfo wcInfo = this.wcInfoRepository.findByWcIdAndMacCode(Long.valueOf(setInfoDto.getWcId()), setInfoDto.getMacCode());
+        if (wcInfo == null) {
+            return;
         }
-        SetInfo setInfo = this.setInfoRepository.findByWcIdAndMacCodeAndSetId(Long.valueOf(setInfoDto.getWcId()),setInfoDto.getMacCode(),Long.valueOf(setInfoDto.getId()));
-        if (setInfo == null ){
+        SetInfo setInfo = this.setInfoRepository.findByWcIdAndMacCodeAndSetId(Long.valueOf(setInfoDto.getWcId()), setInfoDto.getMacCode(), Long.valueOf(setInfoDto.getId()));
+        if (setInfoDto.getOpt().equals("del")) {
+            if (setInfo != null) {
+                this.setInfoRepository.delete(setInfo);
+            }
+            return;
+        }
+        if (setInfo == null) {
             setInfo = new SetInfo();
             setInfo.setCreateTime(new Date());
-        } else {
-            if (setInfoDto.getOpt().equals("del")){
-                this.setInfoRepository.delete(setInfo);
-                return ;
-            }
         }
         setInfo.setWcInfoId(wcInfo.getId());
         setInfo.setUpdateTime(new Date());

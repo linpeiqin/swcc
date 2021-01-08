@@ -31,14 +31,15 @@ public class SensorConfigConsumer {
             return ;
         }
         SensorConfig sensorConfig = this.sensorConfigRepository.findByWcIdAndMacCodeAndSensorId(Long.valueOf(sensorConfigDto.getWcId()),sensorConfigDto.getMacCode(),Long.valueOf(sensorConfigDto.getId()));
+        if (sensorConfigDto.getOpt().equals("del")){
+            if (sensorConfig != null) {
+                this.sensorConfigRepository.delete(sensorConfig);
+            }
+            return ;
+        }
         if (sensorConfig == null){
             sensorConfig = new SensorConfig();
             sensorConfig.setCreateTime(new Date());
-        } else {
-            if (sensorConfigDto.getOpt().equals("del")){
-                this.sensorConfigRepository.delete(sensorConfig);
-                return ;
-            }
         }
         sensorConfig.setWcInfoId(wcInfo.getId());
         sensorConfig.setUpdateTime(new Date());

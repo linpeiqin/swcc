@@ -16,30 +16,32 @@ import java.util.Date;
 public class WcInfoConsumer {
     @Autowired
     private WcInfoRepository wcInfoRepository;
+
     /**
      * 消息消费
+     *
      * @RabbitHandler 代表此方法为接受到消息后的处理方法
      */
     @RabbitHandler
     public void recieved(WcInfoDto wcInfoDto) {
-            WcInfo wcInfo = this.wcInfoRepository.findByWcIdAndMacCode(Long.valueOf(wcInfoDto.getId()), wcInfoDto.getMacCode());
-            if (wcInfo == null) {
-                wcInfo = new WcInfo();
-                wcInfo.setCreateTime(new Date());
-            } else {
-                if (wcInfoDto.getOpt().equals("del")){
-                    this.wcInfoRepository.delete(wcInfo);
-                    return ;
-                }
+        WcInfo wcInfo = this.wcInfoRepository.findByWcIdAndMacCode(Long.valueOf(wcInfoDto.getId()), wcInfoDto.getMacCode());
+        if (wcInfoDto.getOpt().equals("del")) {
+            if (wcInfo != null) {
+                this.wcInfoRepository.delete(wcInfo);
             }
-            wcInfo.setUpdateTime(new Date());
-            wcInfo.setInfo(wcInfoDto.getInfo());
-            wcInfo.setLocation(wcInfoDto.getLocation());
-            wcInfo.setWcId(Long.valueOf(wcInfoDto.getId()));
-            wcInfo.setRecordTime(wcInfoDto.getRecordTime());
-            wcInfo.setPassword(wcInfoDto.getPassword());
-            wcInfo.setMacCode(wcInfoDto.getMacCode());
-            this.wcInfoRepository.save(wcInfo);
+            return;
+        }
+        if (wcInfo == null) {
+            wcInfo = new WcInfo();
+            wcInfo.setCreateTime(new Date());
+        }
+        wcInfo.setUpdateTime(new Date());
+        wcInfo.setInfo(wcInfoDto.getInfo());
+        wcInfo.setLocation(wcInfoDto.getLocation());
+        wcInfo.setWcId(Long.valueOf(wcInfoDto.getId()));
+        wcInfo.setRecordTime(wcInfoDto.getRecordTime());
+        wcInfo.setPassword(wcInfoDto.getPassword());
+        wcInfo.setMacCode(wcInfoDto.getMacCode());
+        this.wcInfoRepository.save(wcInfo);
     }
-
 }

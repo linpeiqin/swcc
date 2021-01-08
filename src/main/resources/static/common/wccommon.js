@@ -6,8 +6,7 @@ function initSelect(form) {
         dataType: 'json',
         success: function (returnMsg) {
             $.each(returnMsg.data, function (n, info) {
-                var value = info.wcId + "|" + info.macCode;
-                $('#wcSelector').append('<option value="' + value + '">' + info.info + '(' + '厕所ID:' + value + ')' + '</option>');
+                $('#wcSelector').append('<option value="' + info.wcIdAndMacCode + '">' + info.info + '(' + info.wcIdAndMacCode + ')' + '</option>');
             })
             form.render();
         },

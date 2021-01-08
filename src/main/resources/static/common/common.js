@@ -38,7 +38,7 @@ aesUtil = {
         return decString;
     }
 };
-rsaUtil = {
+ rsaUtil = {
     //RSA 位数，这里要跟后端对应
     bits: 1024,
 

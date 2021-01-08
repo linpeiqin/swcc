@@ -3,6 +3,8 @@ let util;
 let myChart;
 layui.config({
     base: ctx + '/common/echarts/'
+}).extend({
+    echarts:'echarts.min'
 }).use(['util', 'element', 'form', 'table', 'layer', 'laydate', 'echarts'], function () {
     let table = layui.table;
     let laydate = layui.laydate;

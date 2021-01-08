@@ -55,7 +55,7 @@ public class LoggingWSServer {
             while (sessionMap.get(session.getId()) != null) {
                 try {
                     //日志文件，获取最新的
-                    FileReader fileReader = new FileReader(System.getProperty("user.home") + "/log/" + new SimpleDateFormat("yyyyMMdd").format(new Date()) + "/" + applicationName + ".log");
+                    FileReader fileReader = new FileReader("/usr/javaWeb/logs/" + new SimpleDateFormat("yyyyMMdd").format(new Date()) + "/" + applicationName + ".log");
 
                     //字符流
                     reader = new BufferedReader(fileReader);

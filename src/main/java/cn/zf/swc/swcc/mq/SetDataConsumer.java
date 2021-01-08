@@ -1,6 +1,5 @@
 package cn.zf.swc.swcc.mq;
 
-import cn.zf.swc.swcc.sensorconfig.pojo.SensorConfig;
 import cn.zf.swc.swcc.sensordata.pojo.SetData;
 import cn.zf.swc.swcc.sensordata.repository.SetDataRepository;
 import cn.zf.swc.swcc.setinfo.pojo.SetInfo;
