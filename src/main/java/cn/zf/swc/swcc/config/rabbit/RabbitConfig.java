@@ -85,4 +85,14 @@ public class RabbitConfig {
     public Queue heartBeatConnectionString() {
         return new Queue("heartBeatConnectionQueue");
     }
+
+    /**
+     * 定义setStatusQueue队列
+     * @return
+     */
+    @Bean
+    public Queue setStatusQueueString() {
+        return new Queue("setStatusQueue");
+    }
+
 }

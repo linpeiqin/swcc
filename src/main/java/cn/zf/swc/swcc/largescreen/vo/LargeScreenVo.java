@@ -6,6 +6,7 @@ import cn.zf.swc.swcc.wcinfo.vo.WcStatisticsInfo;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class LargeScreenVo {
@@ -25,6 +26,9 @@ public class LargeScreenVo {
     private Double WaterUsageV;//用水量
     private Boolean isSensorDataUpdate = false;
     private Boolean isSetDataUpdate = false;
+    private List<Integer> statusList; //状态list
+    private List<Integer> manStatusList;//男厕状态list
+    private List<Integer> womanStatusList;//女厕状态list
     private List<WcStatisticsInfo> wcStatisticsInfos;//七天使用量统计
     private List<SetDataVo>  setDataVos;//实时流量数据;
     private List<SensorDataVo> sensorDataVos;//实施传感器数据；

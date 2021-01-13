@@ -36,6 +36,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate', 'util'], function () 
             , {field: 'wcInfoInfo', title: '厕所信息', templet: '<div>{{d.wcInfoVo.info}}</div>'}
             , {field: 'setId', title: '厕位ID', sort: true}
             , {field: 'zigbeeMId', title: '总线ID', sort: true}
+            , {field: 'isUsed', title: '使用情况', sort: true}
             , {field: 'zigbeeBId', title: '厕位标识ID', sort: true}
             , {field: 'createTime', title: '创建时间', sort: true}
             , {field: 'wcTypeName', title: '厕所类型', sort: true}

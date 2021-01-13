@@ -1,12 +1,14 @@
 package cn.zf.swc.swcc.setinfo.vo;
 
 import cn.zf.swc.swcc.common.pojo.PageCondition;
+import cn.zf.swc.swcc.setinfo.util.Singleton;
 import cn.zf.swc.swcc.wcinfo.vo.WcInfoVo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class SetInfoVo extends PageCondition implements Serializable {
@@ -33,5 +35,7 @@ public class SetInfoVo extends PageCondition implements Serializable {
     private Date createTime;//创建时间
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;//修改时间
+
+    private Boolean isUsed;//是否使用
 
 }

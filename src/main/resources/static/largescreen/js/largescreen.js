@@ -18,7 +18,20 @@ $(function () {
     myChart7.resize();
     myChart6.resize();
     initBaiduMap();
+    initWcSetMap();
+    $('#wcSetMap').hide();
+
 });
+
+function switchMap() {
+    if ($('#wcPBaiduMap').is(':hidden')) {
+        $('#wcPBaiduMap').show();
+        $('#wcSetMap').hide();
+    } else {
+        $('#wcPBaiduMap').hide();
+        $('#wcSetMap').show();
+    }
+}
 
 function initBaiduMap() {
     createMap();//创建地图
@@ -27,10 +40,81 @@ function initBaiduMap() {
     addMarker();//向地图中添加marker
 }
 
+let manSetInfoList;
+let womanSetInfoList;
+
+function initWcSetMap() {
+    $.get('/wc/setInfo/setInfoList?wcId=' + $('#wcId').val() + '&macCode=' + $('#macCode').val(), function (data) {
+        manSetInfoList = new Array();
+        womanSetInfoList = new Array();
+        let setInfoList = data.data;
+        let k = 0;
+        let j = 0;
+        for (let index in setInfoList) {
+            if (setInfoList[index].wcType == 1) {
+                manSetInfoList[j++] = setInfoList[index];
+            }
+            if (setInfoList[index].wcType == 2) {
+                womanSetInfoList[k++] = setInfoList[index];
+            }
+        }
+        let manSetNumber = manSetInfoList.length;
+        let womanSetNumber = womanSetInfoList.length;
+        let anyManHeight = 0;
+        let $wcSetMap = $('#wcSetMap');
+        let wcHeight = $wcSetMap.height();
+        if (manSetNumber != 0) {
+            anyManHeight = (wcHeight / manSetNumber).toFixed(2);
+        }
+        let anyWomanHeight = 0;
+        if (womanSetNumber != 0) {
+            anyWomanHeight = (wcHeight / womanSetNumber).toFixed(2);
+        }
+        for (let i = 0; i < manSetNumber; i++) {
+            $wcSetMap.append('<div id = "manDiv' + manSetInfoList[i].zigbeeBId + '" class="setManUsedDiv"  style="height: ' + anyManHeight + 'px;top:' + (anyManHeight * i) + 'px"><img class="setUsedImg" src="/largescreen/images/man_black.png"></div>');
+        }
+        for (let i = 0; i < womanSetNumber; i++) {
+            $wcSetMap.append('<div id = "womanDiv' + womanSetInfoList[i].zigbeeBId + '" class="setWomanUsedDiv" style="height: ' + anyWomanHeight + 'px;top:' + (anyWomanHeight * i) + 'px"><img class="setUsedImg" src="/largescreen/images/woman_black.png"></div>');
+        }
+    });
+}
+
+function isZigbeeBidIn(zigbeeBId, typeSetInfoList) {
+    for (var index in typeSetInfoList) {
+        if (typeSetInfoList[index].zigbeeBId == zigbeeBId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function reWcSetMap(largeScreen) {
+    let $wcSetMap = $('#wcSetMap');
+    let womanUsedNum = 0;
+    let manUsedNum = 0;
+    $wcSetMap.find('.setWomanUsedDiv img').attr("src", "/largescreen/images/woman_black.png");
+    $wcSetMap.find('.setManUsedDiv img').attr("src", "/largescreen/images/man_black.png");
+    if (undefined != largeScreen.statusList && largeScreen.statusList.length > 0) {
+        let statusList = largeScreen.statusList;
+        for (let snum in statusList) {
+            if (isZigbeeBidIn(statusList[snum], womanSetInfoList)) {
+                womanUsedNum++;
+                $wcSetMap.find('#womanDiv' + statusList[snum] + ' img').attr("src", "/largescreen/images/woman.png");
+            }
+            if (isZigbeeBidIn(statusList[snum], manSetInfoList)) {
+                manUsedNum++;
+                $wcSetMap.find('#manDiv' + statusList[snum] + ' img').attr("src", "/largescreen/images/man.png");
+            }
+        }
+    }
+    $('#manUsed').text(manUsedNum);
+    $('#womanUsed').text(womanUsedNum);
+}
+
 //创建地图函数：
 function createMap() {
     var map = new BMap.Map("wcPBaiduMap");//在百度地图容器中创建一个地图
-    var point = new BMap.Point(112.992107,28.194273);//定义一个中心点坐标
+    var point = new BMap.Point(112.992107, 28.194273);//定义一个中心点坐标
     map.centerAndZoom(point, 18);//设定地图的中心点和坐标并将地图显示在地图容器中
     window.map = map;//将map变量存储在全局
 }
@@ -41,10 +125,11 @@ function setMapEvent() {
     map.enableScrollWheelZoom();//启用地图滚轮放大缩小
     map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
     map.enableKeyboard();//启用键盘上下左右键移动地图
-   // map.setMapType(BMAP_PERSPECITVE_MAP);//透视图
-   // map.setMapType(BMAP_PERSPECITVE_MAP);//透视图
- //   map.setMapType(BMAP_PERSPECITVE_MAP);//透视图
-  /* */ map.setMapStyleV2({
+    // map.setMapType(BMAP_PERSPECITVE_MAP);//透视图
+    // map.setMapType(BMAP_PERSPECITVE_MAP);//透视图
+    //   map.setMapType(BMAP_PERSPECITVE_MAP);//透视图
+    /* */
+    map.setMapStyleV2({
         styleId: '9260a25a95016dc8c9e64c5d62af26c7'
     });
 }
@@ -146,6 +231,7 @@ function initPage(event) {
                 setDataUlInit(largeScreen.setDataVos);
             }
         }
+        reWcSetMap(largeScreen);
         $(".loading").fadeOut();
     }
 }
@@ -463,6 +549,7 @@ $(window).resize(function () {
     myChart4.resize();
     myChart6.resize();
     myChart7.resize();
+    $("html").css({fontSize: $(window).width() / 20});
 });
 
 

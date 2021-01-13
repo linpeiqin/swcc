@@ -60,6 +60,7 @@ public class LargeScreenWSService {
                     if (isSetDataUpdate){
                         largeScreenVo = this.largeScreenUtil.setSetData(wcInfoId,largeScreenVo);
                     }
+                    largeScreenVo = this.largeScreenUtil.setSetStatus(wcInfoId,largeScreenVo);
                     if (largeScreenVo!=null){
                         send(session,  mapper.writeValueAsString(largeScreenVo));
                     }

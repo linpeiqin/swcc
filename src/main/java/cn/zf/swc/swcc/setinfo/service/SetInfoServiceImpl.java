@@ -61,4 +61,9 @@ public class SetInfoServiceImpl extends CommonServiceImpl<SetInfoVo, SetInfo, Lo
     public Long findSumWomanSetNumber(Long wcId) {
         return this.setInfoRepository.findSumWomanSetNumber(wcId);
     }
+
+    @Override
+    public Result<List<SetInfoVo>> setInfoList(Long wcId, String macCode) {
+        return Result.of(CopyUtil.copyList(this.setInfoRepository.findAllByWcIdAndMacCode(wcId,macCode),SetInfoVo.class));
+    }
 }

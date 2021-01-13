@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>大屏数据展示</title>
-    <link rel="shortcut icon" th:href='${sys.sysLogo}' th:mce_href='${sys.sysLogo}' type="image/x-icon">
+    <link rel="shortcut icon" th:href='${"/"+sys.sysLogo}' th:mce_href='${"/"+sys.sysLogo}' type="image/x-icon">
     <script th:src="@{/common/jquery/jquery.min.js}" type="text/javascript"></script>
     <script th:src="@{/common/echarts/echarts.min.js}" type="text/javascript"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=aLOsyh3woEhCZBbFMb0QQzP3B65GP9T3"></script>
@@ -25,7 +25,10 @@
     </div>
     <div class="head">
         <h1 th:text="${wcInfoVo.info}"></h1>
-        <div class="weather" id="time"></div>
+        <div class="time" id="time"></div>
+        <div class="switchMap" id="switchMap">
+           <span><a href="javascript:switchMap();">切换地图</a></span>
+        </div>
     </div>
     <div class="mainbox">
         <ul class="clearfix">
@@ -41,8 +44,8 @@
                         <div style="border-bottom: 1px solid rgba(255,255,255,.1)"></div>
                         <ul class="clearfix">
                             <li><span id="sumSetNumber">0</span><h2>总厕位数</h2></li>
-                            <li><span id="manSetNumber">0</span><h2>男厕位数</h2></li>
-                            <li><span id="womanSetNumber">0</span><h2>女厕位数</h2></li>
+                            <li><span id="manSetNumber">0</span>/<span id="manUsed">0</span><h2>男厕位数/占用数</h2></li>
+                            <li><span id="womanSetNumber">0</span>/<span id ="womanUsed">0</span><h2>女厕位数/占用数</h2></li>
                         </ul>
                     </div>
                     <div class="boxfoot"></div>
@@ -77,6 +80,8 @@
                 </div>
                 <div class="map" id="wcPBaiduMap">
                 </div>
+                <div class="setMap" id="wcSetMap">
+                </div>
             </li>
             <li>
                 <div class="boxall" style="height:5.2rem">
@@ -104,6 +109,8 @@
                 </div>
             </li>
         </ul>
+        <input type="hidden" id="wcId" th:value="${wcInfoVo.wcId}">
+        <input type="hidden" id="macCode" th:value="${wcInfoVo.macCode}">
     </div>
     <div class="back"></div>
 </body>

@@ -10,7 +10,20 @@ a{ text-decoration:none; color:#399bff;}
 a.active,a:focus{ outline:none!important; text-decoration:none;}
 ol,ul,p,h1,h2,h3,h4,h5,h6{ padding:0; margin:0}
 a:hover{ color:#06c; text-decoration: none!important}
-
+.setManUsedDiv{
+    position:absolute;
+    left: 0.1rem;
+    width: 50%;
+}
+.setWomanUsedDiv{
+    position:absolute;
+    right: 0.1rem;
+    width: 50%;
+}
+.setUsedImg{
+    height: 100%;
+    width: 100%;
+}
 
 .clearfix:after, .clearfix:before {
 	display: table;
@@ -38,7 +51,9 @@ a:hover{ color:#06c; text-decoration: none!important}
 .head{ height:1.05rem; background: url(../images/head_bg.png) no-repeat center center; background-size: 100% 100%; position: relative}
 .head h1{ color:#fff; text-align: center; font-size: .42rem; line-height:.75rem;}
 .head h1 img{ width:1.5rem; display: inline-block; vertical-align: middle; margin-right: .2rem}
-.weather{ position:absolute; right:.3rem; top:0; line-height: .75rem;color:rgba(255,255,255,.7); font-size: .18rem; padding-right: .1rem;}
+.time{ position:absolute; right:.3rem; top:0; line-height: .75rem;color:rgba(255,255,255,.7); font-size: .18rem; padding-right: .1rem;}
+.switchMap{ position:absolute; left:.3rem; top:0; line-height: .75rem;color:rgba(255,255,255,.7);  padding-right: .1rem;}
+.switchMap span{border: 1px solid rgba(25,186,139,.17); letter-spacing: 2px; padding: .01rem .2rem; background: rgba(255,255,255,.05);  font-size: .18rem;  color: #49bcf7;}
 .mainbox{ padding:.4rem .4rem 0rem .4rem;}
 .mainbox>ul{ margin-left:-.4rem; margin-right:-.4rem;}
 .mainbox>ul>li{ float: left; padding: 0 .4rem}
@@ -69,7 +84,9 @@ a:hover{ color:#06c; text-decoration: none!important}
 .barbox li{ font-size: .6rem; color: #ffeb7b; padding: .05rem 0;  font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif"; font-weight: bold;}
 .barbox2 li{ font-size: .19rem; color: #637c9f; padding-top: .1rem;}
 
-.map{  position:relative;  width:6.43rem; height: 6.43rem; z-index: 9;top:.45rem; left: .4rem; border-radius:50%;box-shadow:0px 0px 8px #02a6b5;}
+.map{background:rgba(101,132,226,.1); padding: .15rem; position:relative;  height: 7.0rem; z-index: 9;top:.45rem;  /*border-radius:50%;*/box-shadow:0px 0px 8px #02a6b5;}
+.setMap{background:rgba(101,132,226,.1); padding: .15rem; position:relative; height: 7.0rem; z-index: 9;top:.45rem; box-shadow:0px 0px 8px #02a6b5;background-color: white}
+
 
 #echarts1,#echarts2,#echarts3,#echarts6,#echarts7{ position:relative;}
 #echarts1:before,
